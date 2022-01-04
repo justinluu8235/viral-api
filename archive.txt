@@ -1,3 +1,5 @@
+//removed waitTime.js and made it embedded in site.js
+
 const mongoose = require('mongoose');
 
 

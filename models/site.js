@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 
+const waitTimeSchema = new mongoose.Schema({
+    waitTime:Number,
+})
 
 //define schema
 const siteSchema = new mongoose.Schema({
@@ -14,7 +17,8 @@ const siteSchema = new mongoose.Schema({
     thursdayHours: String, 
     fridayHours: String, 
     saturdayHours: String, 
-    sundayHours: String
+    sundayHours: String,
+    waitTimes: [waitTimeSchema]
 })
 
 //name the model
