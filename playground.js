@@ -2,13 +2,14 @@
 const {User} = require('./models');
 
 User.insertMany({
-    userName: "viral", 
-    email: "viral@email.com",
-    firstName: "viral", 
-    lastName: "viral",
-    password: "viralPassword",
-    state: "CA", 
-    county: "viralCounty", 
+    userName: "justinl",
+    email: "justin@justin.com",
+    firstName: "justin",
+    lastName: "luu",
+    password: "SEI102599",
+    state: "CA",
+    county: "alameda",
+    vaccinePhotoUrl: "",
 })
 .then((newUser) => {
     console.log(newUser);

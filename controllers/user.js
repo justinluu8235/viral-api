@@ -27,7 +27,6 @@ router.post("/" , async (request, response) => {
             county: request.body.county, 
             vaccinePhotoUrl: ''
         })
-        console.log(newUser);
     }
     catch(error){
         response.status(500).send(error);
