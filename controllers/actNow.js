@@ -1,9 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
+require('dotenv').config();
+
+const COVID_API_KEY = process.env.COVID_API_KEY
 
 // - Fetch API to display top 10 states for COVID: display state name and number of COVID cases 
-axios.get("https://api.covidactnow.org/v2/states.json?apiKey=68dc5af73d734ff99ac80727431f6d33")
+axios.get(`https://api.covidactnow.org/v2/states.json?apiKey=${COVID_API_KEY}`)
     .then((res) => {
         let caseDensityArray = [];
         let densityArray = [];
