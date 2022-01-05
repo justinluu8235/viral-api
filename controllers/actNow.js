@@ -61,9 +61,7 @@ axios.get(`https://api.covidactnow.org/v2/states.json?apiKey=${COVID_API_KEY}`)
         //     vaccinationsInitiated: 9118884,
         //     vaccinationsCompleted: 8114639
         //   }]
-
-        console.log(topTenDataArr);
-        
+        // console.log(topTenDataArr);
     })
     .catch((err) => {
         console.log(err);
@@ -74,15 +72,21 @@ axios.get(`https://api.covidactnow.org/v2/states.json?apiKey=${COVID_API_KEY}`)
 
 
 
-axios.get(`https://api.covidactnow.org/v2/states.json?apiKey=${COVID_API_KEY}`)
-    .then((res) => {
+// axios.get(`https://api.census.gov/data/2010/dec/sf1?get=NAME&for=county:*`)
+//     .then((res) => {
+//         console.log(res.data);
+//     })
+//     .catch((err) => {
+//         console.log(err);
+//     })
+// - Fetch API data by county name. Display # of cases, Fully vaccinated %, # of deaths, new cases
 
+axios.get(`https://api.covidactnow.org/v2/county/55037.json?apiKey=YOUR_KEY_HERE${COVID_API_KEY}`)
+    .then((res) => {
+        console.log(res.data);
     })
     .catch((err) => {
         console.log(err);
     })
-// - Fetch API data by county name. Display # of cases, Fully vaccinated %, # of deaths, new cases
-
-
 
 module.exports = router;
