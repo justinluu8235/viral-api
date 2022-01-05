@@ -49,12 +49,12 @@ router.post('/signup', async (req, res) => {
         } else {
             // Create a new user
             const newUser = new User({
-                userName: request.body.userName, 
+                userName: req.body.userName, 
                 name: req.body.name,
                 email: req.body.email,
                 password: req.body.password,
-                state: request.body.state, 
-                county: request.body.county, 
+                state: req.body.state, 
+                county: req.body.county, 
                 vaccinePhotoUrl: ''
             });
 
