@@ -10,6 +10,7 @@ router.get("/zip/:zip" , async (request, response) => {
         const siteArray = await Site.find({
             zipCode: zip
         });
+
         response.json({siteArray});
     }
     catch(error){
