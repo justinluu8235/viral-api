@@ -71,6 +71,8 @@ router.post('/signup', async (req, res) => {
                     .catch(err => console.log(err));
                 });
             });
+
+            res.redirect('http://localhost:3001/home')
         }
     })
     .catch(err => {
@@ -112,6 +114,7 @@ router.post('/login', async (req, res) => {
                 console.log('===> legit');
                 console.log(legit);
                 res.json({ success: true, token: `Bearer ${token}`, userData: legit });
+                res.redirect('http://localhost:3001/home')
             });
 
         } else {
