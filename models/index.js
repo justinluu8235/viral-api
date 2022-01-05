@@ -26,5 +26,6 @@ db.on("error", ()=>{
 
 module.exports = {
     User: require("./user"),
-    Site: require("./site")
+    Site: require("./site"),
+    CountyData: require("./countyData")
 }
