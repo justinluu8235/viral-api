@@ -2,13 +2,13 @@ const axios = require('axios');
 
 //Get all states
 
-axios.get('https://api.covidactnow.org/v2/states.json?apiKey=e9c1dd5532f840a5b7144e89bf77a0bd')
-.then((response) => {
-    console.log(response.data[1].actuals);
-})
-.catch((err) => {
-    console.log(err);
-})
+// axios.get('https://api.covidactnow.org/v2/states.json?apiKey=e9c1dd5532f840a5b7144e89bf77a0bd')
+// .then((response) => {
+//     console.log(response.data[1].actuals);
+// })
+// .catch((err) => {
+//     console.log(err);
+// })
 
 // {
 //     fips: '54',
@@ -50,15 +50,15 @@ axios.get('https://api.covidactnow.org/v2/states.json?apiKey=e9c1dd5532f840a5b71
 // }
 
 
-// //Get data from individual county using a fip code
-// axios.get('https://api.covidactnow.org/v2/county/06001.json?apiKey=e9c1dd5532f840a5b7144e89bf77a0bd')
-// .then((response) => {
-//     console.log(response.data);
+//Get data from individual county using a fip code
+axios.get('https://api.covidactnow.org/v2/county/55037.json?apiKey=e9c1dd5532f840a5b7144e89bf77a0bd')
+.then((response) => {
+    console.log(response.data);
 
-// })
-// .catch((err) => {
-//     console.log(err);
-// })
+})
+.catch((err) => {
+    console.log(err);
+})
 
 
 // {
@@ -135,4 +135,12 @@ axios.get('https://api.covidactnow.org/v2/states.json?apiKey=e9c1dd5532f840a5b71
 //   url: 'https://covidactnow.org/us/california-ca/county/alameda_county'
 // }
 
+
+// axios.get('https://api.census.gov/data/2010/dec/sf1?get=NAME&for=county:*')
+// .then((response) => {
+//     console.log(response);
+// })
+// .catch((err) => {
+//     console.log(err);
+// })
 
