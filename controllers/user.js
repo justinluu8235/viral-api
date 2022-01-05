@@ -9,15 +9,15 @@ const {User} = require('../models')
 
 
 // //get all users and return as array of objects
-// router.get("/" , async (request, response) => {
-//     try{
-//         const userArray = await User.find({});
-//         response.json({userArray});
-//     }
-//     catch(error){
-//         response.status(500).send(error);
-//     }
-// });
+router.get("/" , async (request, response) => {
+    try{
+        const userArray = await User.find({});
+        response.json({userArray});
+    }
+    catch(error){
+        response.status(500).send(error);
+    }
+});
 
 router.get('/test', ( req, res ) => {
     res.json({
