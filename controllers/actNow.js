@@ -41,7 +41,7 @@ axios.get(`https://api.covidactnow.org/v2/states.json?apiKey=${COVID_API_KEY}`)
             temp.vaccinationsCompleted = stateData.actuals.vaccinationsCompleted;
             topTenDataArr.push(temp);
         }
-        //Data returned
+        //Data returned for the ten states
         // [{
         //     state: 'IL',
         //     caseDensity: 182.4,
