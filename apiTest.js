@@ -2,13 +2,13 @@ const axios = require('axios');
 
 //Get all states
 
-// axios.get('https://api.covidactnow.org/v2/states.json?apiKey=e9c1dd5532f840a5b7144e89bf77a0bd')
-// .then((response) => {
-//     console.log(response);
-// })
-// .catch((err) => {
-//     console.log(err);
-// })
+axios.get('https://api.covidactnow.org/v2/states.json?apiKey=e9c1dd5532f840a5b7144e89bf77a0bd')
+.then((response) => {
+    console.log(response.data[1].actuals);
+})
+.catch((err) => {
+    console.log(err);
+})
 
 // {
 //     fips: '54',
@@ -134,3 +134,5 @@ const axios = require('axios');
 //   lastUpdatedDate: '2022-01-04',
 //   url: 'https://covidactnow.org/us/california-ca/county/alameda_county'
 // }
+
+
