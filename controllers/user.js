@@ -8,16 +8,16 @@ const passport = require('passport');
 const {User} = require('../models')
 
 
-//get all users and return as array of objects
-router.get("/" , async (request, response) => {
-    try{
-        const userArray = await User.find({});
-        response.json({userArray});
-    }
-    catch(error){
-        response.status(500).send(error);
-    }
-});
+// //get all users and return as array of objects
+// router.get("/" , async (request, response) => {
+//     try{
+//         const userArray = await User.find({});
+//         response.json({userArray});
+//     }
+//     catch(error){
+//         response.status(500).send(error);
+//     }
+// });
 
 router.get('/test', ( req, res ) => {
     res.json({
@@ -28,29 +28,12 @@ router.get('/test', ( req, res ) => {
 router.get('/profile', passport.authenticate('jwt', { session: false }), (req, res) => {
     console.log('====> inside /profile');
     console.log('====> user', req.user);
-    const { id, name, email } = req.user; // object with user object inside
-    res.json({ id, name, email });
+    const { id, userName, name, email, date, state, county, vaccinePhotoUrl } = req.user; // object with user object inside
+    res.json({ id, userName, name, email, date, state, county, vaccinePhotoUrl });
 });
 
 
 
-router.post("/" , async (request, response) => {
-    try{
-        let newUser = await User.insertMany({
-            userName: request.body.userName, 
-            email: request.body.email, 
-            firstName: request.body.firstName, 
-            lastName: request.body.lastName, 
-            password: request.body.password, 
-            state: request.body.state, 
-            county: request.body.county, 
-            vaccinePhotoUrl: ''
-        })
-    }
-    catch(error){
-        response.status(500).send(error);
-    }
-});
 
 router.post('/signup', async (req, res) => {
     // POST - adding the new user to the database
@@ -66,9 +49,13 @@ router.post('/signup', async (req, res) => {
         } else {
             // Create a new user
             const newUser = new User({
+                userName: request.body.userName, 
                 name: req.body.name,
                 email: req.body.email,
-                password: req.body.password
+                password: req.body.password,
+                state: request.body.state, 
+                county: request.body.county, 
+                vaccinePhotoUrl: ''
             });
 
             // Salt and hash the password - before saving the user
