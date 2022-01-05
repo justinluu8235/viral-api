@@ -86,8 +86,20 @@ router.get('/', async (req, response) => {
 
 axios.get(`https://api.covidactnow.org/v2/county/55037.json?apiKey=${COVID_API_KEY}`)
     .then((res) => {
-        // console.log(res.data);
-
+        let countyInfo = {
+            fips: res.data.fips,
+            state: res.data.state,
+            county: res.data.county,
+            population: res.data.population,
+            caseDensity: res.data.metrics.caseDensity,
+            cases: res.data.actuals.cases,
+            deaths: res.data.actuals.deaths,
+            newCases: res.data.actuals.newCases,
+            newDeaths: res.data.actuals.newDeaths,
+            vaccinationsInitiated: res.data.actuals.vaccinationsInitiated,
+            vaccinationsCompleted: res.data.actuals.vaccinationsCompleted,
+        };
+        console.log(countyInfo);
     })
     .catch((err) => {
         console.log(err);
