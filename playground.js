@@ -16,7 +16,7 @@ axios.get('https://api.census.gov/data/2010/dec/sf1?get=NAME&for=county:*')
         // })
         
     }
-    CountyData.find();
+    
 })
 
 //         .then((newUser) => {
