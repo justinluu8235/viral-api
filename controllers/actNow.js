@@ -93,7 +93,6 @@ router.post('/county', async (req, res) => {
         })
         let countyId = countyData.code;
         
-        
         let api = await axios.get(`https://api.covidactnow.org/v2/county/${countyId}.json?apiKey=${COVID_API_KEY}`)
         let countyInfo = {
             fips: api.data.fips,
