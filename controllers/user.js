@@ -78,7 +78,7 @@ router.post('/login', async (req, res) => {
     console.log(req.body);
 
     const foundUser = await User.findOne({ email: req.body.email });
-
+    console.log(foundUser);
     if (foundUser) {
         // user is in the DB
         let isMatch = await bcrypt.compare(req.body.password, foundUser.password);
@@ -106,7 +106,7 @@ router.post('/login', async (req, res) => {
                 console.log(legit);
                 res.json({ success: true, token: `Bearer ${token}`, userData: legit });
             });
-            // res.redirect('http://localhost:3001/home')
+            
 
         } else {
             return res.status(400).json({ message: 'Email or Password is incorrect' });
