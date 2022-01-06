@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 require('dotenv').config();
+const {CountyData} = require('../models')
 
 const COVID_API_KEY = process.env.COVID_API_KEY
 
@@ -84,9 +85,15 @@ router.get('/', async (req, response) => {
 
 // axios.get(`https://api.covidactnow.org/v2/county/${fips}.json?apiKey=${COVID_API_KEY}`)
 
-router.get('/:county', async (req, res) => {
+router.post('/county', async (req, res) => {
     try {
-        let countyId = req.params.county;
+        let county = req.body.county;
+        let countyData = await CountyData.findOne({
+            countyName: county
+        })
+        let countyId = countyData.code;
+        
+        
         let api = await axios.get(`https://api.covidactnow.org/v2/county/${countyId}.json?apiKey=${COVID_API_KEY}`)
         let countyInfo = {
             fips: api.data.fips,
