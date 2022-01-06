@@ -8,7 +8,6 @@ const COVID_API_KEY = process.env.COVID_API_KEY
 
 // - Fetch API to display top 10 states for COVID: display state name and number of COVID cases 
 router.get('/', async (req, response) => {
-
     try {
         let res = await axios.get(`https://api.covidactnow.org/v2/states.json?apiKey=${COVID_API_KEY}`);
         //Build an array of all state data
@@ -21,11 +20,11 @@ router.get('/', async (req, response) => {
             let two = res.data[i];
             stateDataArray.push(two);
         }
-        //Sort based on case density
+        //Sort based on cases
         stateDataArray.sort((a, b) => (a.actuals.cases > b.actuals.cases) ? 1 : -1);
 
         // take top 10
-        let topTenDataArr = [];
+        let topTenCasesArr = [];
         for (let i = 0; i < 10; i++) {
             let temp = {};
             let stateData = stateDataArray[((stateDataArray.length - 1) - i)];
@@ -42,10 +41,59 @@ router.get('/', async (req, response) => {
             temp.vaccinesDistributed = stateData.actuals.vaccinesDistributed;
             temp.vaccinationsInitiated = stateData.actuals.vaccinationsInitiated;
             temp.vaccinationsCompleted = stateData.actuals.vaccinationsCompleted;
-            topTenDataArr.push(temp);
+            topTenCasesArr.push(temp);
         }
 
-        response.json({ topTenDataArr })
+        //Sort based on deaths
+        stateDataArray.sort((a, b) => (a.actuals.deaths > b.actuals.deaths) ? 1 : -1);
+
+        // take top 10
+        let topTenDeathsArr = [];
+        for (let i = 0; i < 10; i++) {
+            let temp = {};
+            let stateData = stateDataArray[((stateDataArray.length - 1) - i)];
+            temp.state = stateData.state;
+            temp.caseDensity = stateData.metrics.caseDensity;
+            temp.cases = stateData.actuals.cases;
+            temp.deaths = stateData.actuals.deaths;
+            temp.positiveTests = stateData.actuals.positiveTests;
+            temp.negativeTests = stateData.actuals.negativeTests;
+            temp.hospitalBeds = stateData.actuals.hospitalBeds;
+            temp.icuBeds = stateData.actuals.icuBeds;
+            temp.newCases = stateData.actuals.newCases;
+            temp.newDeaths = stateData.actuals.newDeaths;
+            temp.vaccinesDistributed = stateData.actuals.vaccinesDistributed;
+            temp.vaccinationsInitiated = stateData.actuals.vaccinationsInitiated;
+            temp.vaccinationsCompleted = stateData.actuals.vaccinationsCompleted;
+            topTenDeathsArr.push(temp);
+        }
+
+        //Sort based on deaths
+        stateDataArray.sort((a, b) => (a.actuals.newCases > b.actuals.newCases) ? 1 : -1);
+
+        // take top 10
+        let topTenNewCasesArr = [];
+        for (let i = 0; i < 10; i++) {
+            let temp = {};
+            let stateData = stateDataArray[((stateDataArray.length - 1) - i)];
+            temp.state = stateData.state;
+            temp.caseDensity = stateData.metrics.caseDensity;
+            temp.cases = stateData.actuals.cases;
+            temp.deaths = stateData.actuals.deaths;
+            temp.positiveTests = stateData.actuals.positiveTests;
+            temp.negativeTests = stateData.actuals.negativeTests;
+            temp.hospitalBeds = stateData.actuals.hospitalBeds;
+            temp.icuBeds = stateData.actuals.icuBeds;
+            temp.newCases = stateData.actuals.newCases;
+            temp.newDeaths = stateData.actuals.newDeaths;
+            temp.vaccinesDistributed = stateData.actuals.vaccinesDistributed;
+            temp.vaccinationsInitiated = stateData.actuals.vaccinationsInitiated;
+            temp.vaccinationsCompleted = stateData.actuals.vaccinationsCompleted;
+            topTenNewCasesArr.push(temp);
+        }
+
+
+        response.json({ topTenCasesArr, topTenDeathsArr, topTenNewCasesArr })
     }
     catch (error) {
         console.log(error);
@@ -71,7 +119,7 @@ router.get('/', async (req, response) => {
     //     vaccinationsInitiated: 9118884,
     //     vaccinationsCompleted: 8114639
     //   }]
-    // console.log(topTenDataArr);
+    // console.log(topTenCasesArr);
 });
 
 // axios.get(`https://api.census.gov/data/2010/dec/sf1?get=NAME&for=county:*`)
