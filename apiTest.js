@@ -144,9 +144,166 @@ const axios = require('axios');
 //     console.log(err);
 // })
 
+/*
+Site 1 - Oakland - 94605
+Site 2 - Oakland - 94605
+Site 3 - Oakland - 94601
+Site 4 - San Fransisco - 94605
+*/
 
-const obj = {
-    "94605" : "hello"
-}
 
-console.log(obj["94605"])
+router.get("/zip/:zip" , async (request, response) => {
+    try{
+        
+        let zip = request.params.zip;
+        let zipResults = {};
+        let cityLocationArr = [];
+        const siteArray = await Site.find({
+            zipCode: zip
+        });
+        
+        // Creates an array of cities that are in the given zip code based on site input
+        for (let i = 0; i < siteArray.length; i++) {
+            let city = siteArray[i].city;
+            if(!cityLocationArr.includes(city)) {
+                cityLocationArr.push(city);
+            }
+        }
+        
+        //Query sites based on the cities
+        let citySitesArr = [];
+        for(let i=0; i<cityLocationArr.length; i++){
+            //Oakland, SF
+            const citySites = await Site.find({
+                city: cityLocationArr[i]
+            })
+            citySitesArr.push(citySites); //Array of array
+
+        }
+        
+        //Build object by zip code;
+        for(let i=0; i<citySitesArr.length; i++){
+            //the array for each city
+            let citySiteArr = citySitesArr[i];
+            for(let j=0; j<citySiteArr.length; j++){
+                //the individual site
+                let citySite = citySiteArr[i];
+                let zip = citySite.zipCode;
+                console.log(zip)
+                if(zipResults[zip] == undefined){
+                    zipResults[zip] = [citySite]
+                    console.log(zipResults)
+                }else{
+                    zipResults[zip].push(citySite);
+                }
+            }
+        }
+
+        console.log(zipResults);
+
+        response.json({siteArray});
+    }
+    catch(error){
+        response.status(500).send(error);
+    }
+});
+
+// MongoDB successfully connected...
+// [
+//   [
+//     {
+//       _id: new ObjectId("61d739bd4186d425f9035791"),
+//       name: 'Oakland Site',
+//       address: 'address12',
+//       city: 'Oakland',
+//       state: 'CA',
+//       zipCode: 94605,
+//       waitTimes: [],
+//       __v: 0
+//     },
+//     {
+//       _id: new ObjectId("61d739f44186d425f9035793"),
+//       name: 'Oakland Site 2',
+//       address: 'address45',
+//       city: 'Oakland',
+//       state: 'CA',
+//       zipCode: 94605,
+//       waitTimes: [],
+//       __v: 0
+//     },
+//     {
+//       _id: new ObjectId("61d739f54186d425f9035795"),
+//       name: 'Oakland Site 2',
+//       address: 'address45',
+//       city: 'Oakland',
+//       state: 'CA',
+//       zipCode: 94605,
+//       waitTimes: [],
+//       __v: 0
+//     },
+//     {
+//       _id: new ObjectId("61d73f173da9a24a4ceef0b2"),
+//       name: 'Site 1',
+//       address: '',
+//       city: 'Oakland',
+//       state: '',
+//       zipCode: 94605,
+//       waitTimes: [],
+//       __v: 0
+//     },
+//     {
+//       _id: new ObjectId("61d73fb43da9a24a4ceef0b8"),
+//       name: 'site4',
+//       address: '',
+//       city: 'Oakland',
+//       state: '',
+//       zipCode: 94601,
+//       waitTimes: [],
+//       __v: 0
+//     }
+//   ],
+//   [
+//     {
+//       _id: new ObjectId("61d73f2c3da9a24a4ceef0b4"),
+//       name: 'zsite2',
+//       address: '',
+//       city: 'Oakland ',
+//       state: '',
+//       zipCode: 94605,
+//       waitTimes: [],
+//       __v: 0
+//     }
+//   ],
+//   [
+//     {
+//       _id: new ObjectId("61d73a1e4186d425f9035797"),
+//       name: 'SF Site 1',
+//       address: 'address45',
+//       city: 'San Fransisco',
+//       state: 'CA',
+//       zipCode: 94711,
+//       waitTimes: [],
+//       __v: 0
+//     },
+//     {
+//       _id: new ObjectId("61d73a1f4186d425f9035799"),
+//       name: 'SF Site 1',
+//       address: 'address45',
+//       city: 'San Fransisco',
+//       state: 'CA',
+//       zipCode: 94711,
+//       waitTimes: [],
+//       __v: 0
+//     },
+//     {
+//       _id: new ObjectId("61d73faa3da9a24a4ceef0b6"),
+//       name: 'site3',
+//       address: '',
+//       city: 'San Fransisco',
+//       state: '',
+//       zipCode: 94605,
+//       waitTimes: [],
+//       __v: 0
+//     }
+//   ]
+// ]
