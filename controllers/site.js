@@ -2,6 +2,17 @@ const express = require('express');
 const router = express.Router();
 const {Site} = require('../models')
 
+router.get("/" , async (request, response) => {
+    try{
+        const siteArray = await Site.find({});
+        response.json({siteArray});
+    }
+    catch(error){
+        response.status(500).send(error);
+    }
+});
+
+
 // - Display all sites at zip 
 router.get("/zip/:zip" , async (request, response) => {
     try{

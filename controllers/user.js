@@ -25,15 +25,6 @@ router.get('/test', ( req, res ) => {
     });
 });
 
-router.get('/profile', passport.authenticate('jwt', { session: false }), (req, res) => {
-    console.log('====> inside /profile');
-    console.log('====> user', req.user);
-    const { id, userName, name, email, date, state, county, vaccinePhotoUrl } = req.user; // object with user object inside
-    res.json({ id, userName, name, email, date, state, county, vaccinePhotoUrl });
-});
-
-
-
 
 router.post('/signup', async (req, res) => {
     // POST - adding the new user to the database
@@ -72,7 +63,7 @@ router.post('/signup', async (req, res) => {
                 });
             });
 
-            res.redirect('http://localhost:3001/home')
+            // res.redirect('http://localhost:3001/home')
         }
     })
     .catch(err => {
@@ -114,8 +105,8 @@ router.post('/login', async (req, res) => {
                 console.log('===> legit');
                 console.log(legit);
                 res.json({ success: true, token: `Bearer ${token}`, userData: legit });
-                res.redirect('http://localhost:3001/home')
             });
+            // res.redirect('http://localhost:3001/home')
 
         } else {
             return res.status(400).json({ message: 'Email or Password is incorrect' });
@@ -125,7 +116,12 @@ router.post('/login', async (req, res) => {
     }
 });
 
-
+router.get('/profile', passport.authenticate('jwt', { session: false }), (req, res) => {
+    console.log('====> inside /profile');
+    console.log('====> user', req.user);
+    const { id, userName, name, email, date, state, county, vaccinePhotoUrl } = req.user; // object with user object inside
+    res.json({ id, userName, name, email, date, state, county, vaccinePhotoUrl });
+});
 
 
 module.exports = router;
