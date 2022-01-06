@@ -9,15 +9,15 @@ const {User} = require('../models')
 
 
 // //get all users and return as array of objects
-// router.get("/" , async (request, response) => {
-//     try{
-//         const userArray = await User.find({});
-//         response.json({userArray});
-//     }
-//     catch(error){
-//         response.status(500).send(error);
-//     }
-// });
+router.get("/" , async (request, response) => {
+    try{
+        const userArray = await User.find({});
+        response.json({userArray});
+    }
+    catch(error){
+        response.status(500).send(error);
+    }
+});
 
 router.get('/test', ( req, res ) => {
     res.json({
@@ -87,7 +87,7 @@ router.post('/login', async (req, res) => {
     console.log(req.body);
 
     const foundUser = await User.findOne({ email: req.body.email });
-
+    console.log(foundUser);
     if (foundUser) {
         // user is in the DB
         let isMatch = await bcrypt.compare(req.body.password, foundUser.password);
@@ -114,9 +114,9 @@ router.post('/login', async (req, res) => {
                 console.log('===> legit');
                 console.log(legit);
                 res.json({ success: true, token: `Bearer ${token}`, userData: legit });
-                
+                res.redirect('http://localhost:3001/home')
             });
-            res.redirect('http://localhost:3001/home')
+            
 
         } else {
             return res.status(400).json({ message: 'Email or Password is incorrect' });
