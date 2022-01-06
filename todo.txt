@@ -23,3 +23,24 @@ Oakland: 94605, 94607
 
     zipcode3: siteArray3
 }
+
+
+
+
+TODO: 
+Frontend
+ - Site: Incorporate zipcode search
+ - Profile: Allow for upload vaccine photo. Cloudinary.   Page for display
+ - Site: Individual site page
+
+Backend
+- 
+
+
+
+Both: 
+- Site: 
+    - Make comments component  --- frontend first 
+    - Add Wait Times --- frontend first  (POST: will need wait time and site sent to backend)
+
+- Home: Display more top tens  - Deaths and New Cases  --- backend first (Michael)
