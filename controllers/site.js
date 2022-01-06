@@ -7,7 +7,6 @@ const {Site} = require('../models')
 //Return an object with zip code as key and array of sites in that zipcode as value
 router.get("/zip/:zip" , async (request, response) => {
     try{
-        
         let zip = request.params.zip;
         let zipResults = {};
         let cityLocationArr = [];
@@ -50,7 +49,14 @@ router.get("/zip/:zip" , async (request, response) => {
                 }
             }
         }
-        response.json({zipResults});
+        let zipArray = []
+        for(zip in zipResults){
+            let temp = {};
+            temp.zipCode = zip;
+            temp.siteArray = zipResults[zip]
+            zipArray.push(temp);
+        }
+        response.json({zipArray});
     }
     catch(error){
         response.status(500).send(error);
