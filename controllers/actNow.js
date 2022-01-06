@@ -84,28 +84,50 @@ router.get('/', async (req, response) => {
 
 // axios.get(`https://api.covidactnow.org/v2/county/${fips}.json?apiKey=${COVID_API_KEY}`)
 
-router.get('/county', async (req, response) => {
-    axios.get(`https://api.covidactnow.org/v2/county/55037.json?apiKey=${COVID_API_KEY}`)
-        .then((res) => {
-            let countyInfo = {
-                fips: res.data.fips,
-                state: res.data.state,
-                county: res.data.county,
-                population: res.data.population,
-                caseDensity: res.data.metrics.caseDensity,
-                cases: res.data.actuals.cases,
-                deaths: res.data.actuals.deaths,
-                newCases: res.data.actuals.newCases,
-                newDeaths: res.data.actuals.newDeaths,
-                vaccinationsInitiated: res.data.actuals.vaccinationsInitiated,
-                vaccinationsCompleted: res.data.actuals.vaccinationsCompleted,
-            };
-            console.log(countyInfo);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
+router.get('/:county', async (req, res) => {
+    try {
+        let countyId = req.params.county;
+        let api = await axios.get(`https://api.covidactnow.org/v2/county/${countyId}.json?apiKey=${COVID_API_KEY}`)
+        let countyInfo = {
+            fips: api.data.fips,
+            state: api.data.state,
+            county: api.data.county,
+            population: api.data.population,
+            caseDensity: api.data.metrics.caseDensity,
+            cases: api.data.actuals.cases,
+            deaths: api.data.actuals.deaths,
+            newCases: api.data.actuals.newCases,
+            newDeaths: api.data.actuals.newDeaths,
+            vaccinationsInitiated: api.data.actuals.vaccinationsInitiated,
+            vaccinationsCompleted: api.data.actuals.vaccinationsCompleted,
+        };
+        console.log(countyInfo);
+        res.json({countyInfo});
+    }
+    catch (err) {
+        console.log(err);
+    }
+})
 
-});
+// axios.get(`https://api.covidactnow.org/v2/county/55037.json?apiKey=${COVID_API_KEY}`)
+//     .then((res) => {
+//         let countyInfo = {
+//             fips: res.data.fips,
+//             state: res.data.state,
+//             county: res.data.county,
+//             population: res.data.population,
+//             caseDensity: res.data.metrics.caseDensity,
+//             cases: res.data.actuals.cases,
+//             deaths: res.data.actuals.deaths,
+//             newCases: res.data.actuals.newCases,
+//             newDeaths: res.data.actuals.newDeaths,
+//             vaccinationsInitiated: res.data.actuals.vaccinationsInitiated,
+//             vaccinationsCompleted: res.data.actuals.vaccinationsCompleted,
+//         };
+//         console.log(countyInfo);
+//     })
+//     .catch((err) => {
+//         console.log(err);
+//     })
 
 module.exports = router;
