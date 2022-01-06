@@ -43,20 +43,35 @@ router.get("/zip/:zip" , async (request, response) => {
                 let zip = citySite.zipCode;
                 if(zipResults[zip] == undefined){
                     zipResults[zip] = [citySite]
-                    console.log(zipResults);
+                
                 }else{
                     zipResults[zip].push(citySite);
                 }
             }
         }
-        let zipArray = []
-        for(zip in zipResults){
-            let temp = {};
-            temp.zipCode = zip;
-            temp.siteArray = zipResults[zip]
-            zipArray.push(temp);
+        let zipObj = {}
+        zipObj.closeBy = [];
+        for(zipCode in zipResults){
+            console.log(zipCode);
+            console.log("++++" ,zip )
+            if(zipCode == zip){
+                console.log("hello");
+                zipObj[zip] = zipResults[zip];
+            }
+            else{
+                let array = zipResults[zipCode];
+                console.log("hello");
+                for(let i=0; i<array.length; i++){
+                    let site = array[i];
+                    zipObj.closeBy.push(site)
+                }
+            }
+            
+
         }
-        response.json({zipArray});
+        let zipArr = zipObj[zip];
+        let closeByArr = zipObj['closeBy']
+        response.json({zipArr,closeByArr});
     }
     catch(error){
         response.status(500).send(error);
