@@ -2,27 +2,55 @@ const express = require('express');
 const router = express.Router();
 const {Site} = require('../models')
 
-router.get("/" , async (request, response) => {
-    try{
-        const siteArray = await Site.find({});
-        response.json({siteArray});
-    }
-    catch(error){
-        response.status(500).send(error);
-    }
-});
 
-
-// - Display all sites at zip 
+//Get Sites that are in the same zipcode, and cities that share that zip code
+//Return an object with zip code as key and array of sites in that zipcode as value
 router.get("/zip/:zip" , async (request, response) => {
     try{
+        
         let zip = request.params.zip;
-
+        let zipResults = {};
+        let cityLocationArr = [];
         const siteArray = await Site.find({
             zipCode: zip
         });
+        
+        // Creates an array of cities that are in the given zip code based on site input
+        for (let i = 0; i < siteArray.length; i++) {
+            let city = siteArray[i].city;
+            if(!cityLocationArr.includes(city)) {
+                cityLocationArr.push(city);
+            }
+        }
+        
+        //Query sites based on the cities
+        let citySitesArr = [];
+        for(let i=0; i<cityLocationArr.length; i++){
+            //Oakland, SF
+            const citySites = await Site.find({
+                city: cityLocationArr[i]
+            })
+            citySitesArr.push(citySites); //Array of array
 
-        response.json({siteArray});
+        }
+        
+        //Build object by zip code;
+        for(let i=0; i<citySitesArr.length; i++){
+            //the array for each city
+            let citySiteArr = citySitesArr[i];
+            for(let j=0; j<citySiteArr.length; j++){
+                //the individual site
+                let citySite = citySiteArr[j];
+                let zip = citySite.zipCode;
+                if(zipResults[zip] == undefined){
+                    zipResults[zip] = [citySite]
+                    console.log(zipResults);
+                }else{
+                    zipResults[zip].push(citySite);
+                }
+            }
+        }
+        response.json({zipResults});
     }
     catch(error){
         response.status(500).send(error);

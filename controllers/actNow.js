@@ -85,11 +85,11 @@ router.get('/', async (req, response) => {
 
 // axios.get(`https://api.covidactnow.org/v2/county/${fips}.json?apiKey=${COVID_API_KEY}`)
 
-router.get('/:county', async (req, res) => {
+router.post('/county', async (req, res) => {
     try {
-        console.log(req.params.county)
-        let county = req.params.county.replace("_"," ");
-        county = county.replace(",_" , ", ")
+        console.log(req.body.county)
+        
+        let county = req.body.county;
         console.log(county);
         let countyData = await CountyData.findOne({
             countyName: county
@@ -110,7 +110,7 @@ router.get('/:county', async (req, res) => {
             vaccinationsInitiated: api.data.actuals.vaccinationsInitiated,
             vaccinationsCompleted: api.data.actuals.vaccinationsCompleted,
         };
-        console.log(countyInfo);
+
         res.json({countyInfo});
     }
     catch (err) {

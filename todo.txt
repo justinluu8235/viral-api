@@ -7,3 +7,19 @@
 - Individual site page - display all the info including comments 
 
 - Add a site route 
+
+step 1: take in zip code and get a site array back 
+
+step2 : 
+
+Oakland: 94605, 94607
+
+{   
+    city: cityName, 
+
+    zipcodes : siteArray,
+
+    "94605": siteArray2,
+
+    zipcode3: siteArray3
+}
