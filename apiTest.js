@@ -51,14 +51,14 @@ const axios = require('axios');
 
 
 //Get data from individual county using a fip code
-axios.get('https://api.covidactnow.org/v2/county/55037.json?apiKey=e9c1dd5532f840a5b7144e89bf77a0bd')
-.then((response) => {
-    console.log(response.data);
+// axios.get('https://api.covidactnow.org/v2/county/55037.json?apiKey=e9c1dd5532f840a5b7144e89bf77a0bd')
+// .then((response) => {
+//     console.log(response.data);
 
-})
-.catch((err) => {
-    console.log(err);
-})
+// })
+// .catch((err) => {
+//     console.log(err);
+// })
 
 
 // {
@@ -144,3 +144,9 @@ axios.get('https://api.covidactnow.org/v2/county/55037.json?apiKey=e9c1dd5532f84
 //     console.log(err);
 // })
 
+
+const obj = {
+    "94605" : "hello"
+}
+
+console.log(obj["94605"])
