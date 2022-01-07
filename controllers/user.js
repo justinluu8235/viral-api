@@ -198,7 +198,7 @@ router.put('/update', async (req, res) => {
 
 
     User.findOne({ email: req.body.email })
-        .then(user => {
+        .then(async user => {
             // if email already exists, a user will come back
             if (user) {
                 // send a 400 response
