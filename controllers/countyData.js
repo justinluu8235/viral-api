@@ -6,7 +6,7 @@ const {CountyData} = require('../models')
 router.get("/counties" , async (request, response) => {
     try{
         let countyNameArr = []
-        let countyDataArr = await CountyData.find();
+        let countyDataArr = await CountyData.find().sort({countyName:1});
         for(let i=0; i<countyDataArr.length; i++){
             let countyData = countyDataArr[i];
             let name = countyData.countyName;
