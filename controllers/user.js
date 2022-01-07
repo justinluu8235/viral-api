@@ -6,6 +6,10 @@ const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = process.env;
 const passport = require('passport');
 const {User} = require('../models')
+const {cloudinary} = require('../utils/cloudinary')
+const axios = require('axios');
+
+
 
 
 // //get all users and return as array of objects
@@ -25,6 +29,82 @@ router.get('/test', ( req, res ) => {
     });
 });
 
+<<<<<<< HEAD
+=======
+router.get('/profile', passport.authenticate('jwt', { session: false }), (req, res) => {
+    console.log('====> inside /profile');
+    console.log('====> user', req.user);
+    const { id, userName, name, email, date, state, county, vaccinePhotoUrl } = req.user; // object with user object inside
+  
+
+
+    res.json({ id, userName, name, email, date, state, county, vaccinePhotoUrl });
+});
+
+
+router.get("/photo/:email", async (req, res) => {
+    let userEmail = req.params.email;
+    // console.log("USER Email", userEmail);
+    let user = await User.findOne({
+        email: userEmail
+    })
+    if(user != null && user.vaccinePhotoUrl != ''){
+        let publicId = user.vaccinePhotoUrl;
+        console.log("SDA", publicId);
+        // console.log("PUBLIC ID" , publicId);
+        //returns an array of files from that folder
+        // const {resources} = await cloudinary.search.expression('folder:viralapi')
+        // .sort_by('public_id', 'desc')
+        // .max_results(30)
+        // .execute();
+    
+         const {resources} = await cloudinary.search.expression(`public_id:${publicId}`)
+        .sort_by('public_id', 'desc')
+        .max_results(30)
+        .execute();
+        // console.log(resources);
+        //mapping the array to only take the publicID
+        const publicIds = resources.map(file => file.public_id);
+        res.send(publicIds);
+    }
+    
+    
+})
+
+router.post('/photo', async (req, res) => {
+    
+    try{
+        //get the data URI from frontend 
+        const fileStr = req.body.data;
+        console.log(fileStr)
+        //Upload to cloudinary
+        const uploadedResponse = await cloudinary.uploader.upload(fileStr,{
+            upload_preset: "viralapi"
+        })
+        let uploadedPublicID = uploadedResponse.public_id;
+
+        //get the user, and update the vaccine photo url to the public ID from cloudinary
+        const userId = req.body.userId;
+        let user = await User.updateOne({
+            _id: userId, 
+        },{
+            $set: {vaccinePhotoUrl: uploadedPublicID}
+        }
+        )
+        // console.log(user);
+        // console.log(uploadedResponse);
+        // res.redirect("localhost:3001/profile")
+    }
+    catch(error){
+        console.log(error);
+    }
+
+ 
+});
+
+
+
+>>>>>>> d02170c755f1e35f49b56e20ab34c2a7daca3e8d
 
 router.post('/signup', async (req, res) => {
     // POST - adding the new user to the database

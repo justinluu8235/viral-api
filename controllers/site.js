@@ -2,7 +2,15 @@ const express = require('express');
 const router = express.Router();
 const {Site} = require('../models')
 
-
+router.get("/" , async (request, response) => {
+    try{
+        const siteArray = await Site.find({});
+        response.json({siteArray});
+    }
+    catch(error){
+        response.status(500).send(error);
+    }
+});
 //Get Sites that are in the same zipcode, and cities that share that zip code
 //Return an object with zip code as key and array of sites in that zipcode as value
 router.get("/zip/:zip" , async (request, response) => {
