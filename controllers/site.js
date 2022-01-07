@@ -89,11 +89,7 @@ router.get("/:id" , async (request, response) => {
         const site = await Site.find({
             _id: id
         });
-
         
-
-
-
         response.json({site});
     }
     catch(error){
@@ -120,11 +116,15 @@ router.post("/new" , async (request, response) => {
             saturdayHours: request.body.saturdayHours, 
             sundayHours: request.body.sundayHours, 
         })
+        console.log("NEW SITE ADDED" , newSite)
+        response.json({newSite})
     }
     catch(error){
         response.status(500).send(error);
     }
 });
+
+
 
 //take in the site ID and an additional wait time and add to the array
 router.put("/updateWaitTime", async (request, response) => {
