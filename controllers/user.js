@@ -153,9 +153,9 @@ router.post('/login', async (req, res) => {
     // POST - finding a user and returning the user
     console.log('===> Inside of /login');
     console.log(req.body);
-
+    console.log("Email", req.body.email)
     const foundUser = await User.findOne({ email: req.body.email });
-    console.log(foundUser);
+    console.log("User Found: " , foundUser);
     if (foundUser) {
         // user is in the DB
         let isMatch = await bcrypt.compare(req.body.password, foundUser.password);
