@@ -29,8 +29,6 @@ router.get('/test', ( req, res ) => {
     });
 });
 
-<<<<<<< HEAD
-=======
 router.get('/profile', passport.authenticate('jwt', { session: false }), (req, res) => {
     console.log('====> inside /profile');
     console.log('====> user', req.user);
@@ -104,7 +102,6 @@ router.post('/photo', async (req, res) => {
 
 
 
->>>>>>> d02170c755f1e35f49b56e20ab34c2a7daca3e8d
 
 router.post('/signup', async (req, res) => {
     // POST - adding the new user to the database
