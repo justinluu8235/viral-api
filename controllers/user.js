@@ -140,12 +140,13 @@ router.post('/signup', async (req, res) => {
                 });
             });
 
-            res.redirect('http://localhost:3001/home')
+           
         }
     })
     .catch(err => {
         console.log('Error finding user', err);
         res.json({ message: 'An error occured. Please try again.'})
+       
     })
 });
 
