@@ -42,26 +42,31 @@ router.get('/profile', passport.authenticate('jwt', { session: false }), (req, r
 
 router.get("/photo/:email", async (req, res) => {
     let userEmail = req.params.email;
-    console.log("USER Email", userEmail);
+    // console.log("USER Email", userEmail);
     let user = await User.findOne({
         email: userEmail
     })
-    let publicId = user.vaccinePhotoUrl;
-    console.log("PUBLIC ID" , publicId);
-    //returns an array of files from that folder
-    // const {resources} = await cloudinary.search.expression('folder:viralapi')
-    // .sort_by('public_id', 'desc')
-    // .max_results(30)
-    // .execute();
-
-     const {resources} = await cloudinary.search.expression(`public_id:${publicId}`)
-    .sort_by('public_id', 'desc')
-    .max_results(30)
-    .execute();
-    console.log(resources);
-    //mapping the array to only take the publicID
-    const publicIds = resources.map(file => file.public_id);
-    res.send(publicIds);
+    if(user != null && user.vaccinePhotoUrl != ''){
+        let publicId = user.vaccinePhotoUrl;
+        console.log("SDA", publicId);
+        // console.log("PUBLIC ID" , publicId);
+        //returns an array of files from that folder
+        // const {resources} = await cloudinary.search.expression('folder:viralapi')
+        // .sort_by('public_id', 'desc')
+        // .max_results(30)
+        // .execute();
+    
+         const {resources} = await cloudinary.search.expression(`public_id:${publicId}`)
+        .sort_by('public_id', 'desc')
+        .max_results(30)
+        .execute();
+        // console.log(resources);
+        //mapping the array to only take the publicID
+        const publicIds = resources.map(file => file.public_id);
+        res.send(publicIds);
+    }
+    
+    
 })
 
 router.post('/photo', async (req, res) => {
@@ -69,6 +74,7 @@ router.post('/photo', async (req, res) => {
     try{
         //get the data URI from frontend 
         const fileStr = req.body.data;
+        console.log(fileStr)
         //Upload to cloudinary
         const uploadedResponse = await cloudinary.uploader.upload(fileStr,{
             upload_preset: "viralapi"
@@ -83,9 +89,9 @@ router.post('/photo', async (req, res) => {
             $set: {vaccinePhotoUrl: uploadedPublicID}
         }
         )
-        console.log(user);
-        console.log(uploadedResponse);
-        res.json({msg:"YAY"})
+        // console.log(user);
+        // console.log(uploadedResponse);
+        // res.redirect("localhost:3001/profile")
     }
     catch(error){
         console.log(error);
