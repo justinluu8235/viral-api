@@ -97,6 +97,11 @@ router.get("/:id" , async (request, response) => {
         const site = await Site.find({
             _id: id
         });
+
+        
+
+
+
         response.json({site});
     }
     catch(error){
@@ -129,5 +134,20 @@ router.post("/new" , async (request, response) => {
         response.status(500).send(error);
     }
 });
+
+//take in the site ID and an additional wait time and add to the array
+router.put("/updateWaitTime", async (request, response) => {
+    let siteId = request.body.siteId;
+    let waitTime = request.body.waitTime;
+
+    const site = await Site.find({
+        _id: siteId
+    });
+    site.waitTimes.push({
+        waitTime: waitTime
+    })
+    
+});
+
 
 module.exports = router;
