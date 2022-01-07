@@ -44,3 +44,13 @@ Both:
     - Add Wait Times --- frontend first  (POST: will need wait time and site sent to backend)
 
 - Home: Display more top tens  - Deaths and New Cases  --- backend first (Michael)
+
+
+
+
+{
+
+    zipCodeThatYouGaveL: [ site1, site2     ],
+    everythingElse : [site 1, site2, site.. .]
+
+}
