@@ -114,7 +114,7 @@ router.post("/new" , async (request, response) => {
             city: request.body.city, 
             state: request.body.state, 
             zipCode: request.body.zipCode, 
-            state: request.body.state, 
+            waitTimes: request.body.waitTimes,
             mondayHours: request.body.mondayHours, 
             tuesdayHours: request.body.tuesdayHours, 
             wednesdayHours: request.body.wednesdayHours, 
@@ -123,6 +123,7 @@ router.post("/new" , async (request, response) => {
             saturdayHours: request.body.saturdayHours, 
             sundayHours: request.body.sundayHours, 
         })
+        console.log(newSite);
     }
     catch(error){
         response.status(500).send(error);

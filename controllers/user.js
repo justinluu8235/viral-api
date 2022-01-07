@@ -139,8 +139,6 @@ router.post('/signup', async (req, res) => {
                     .catch(err => console.log(err));
                 });
             });
-
-            // res.redirect('http://localhost:3001/home')
         }
     })
     .catch(err => {
