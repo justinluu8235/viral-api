@@ -168,10 +168,13 @@ router.post('/login', async (req, res) => {
             // Create a token payload
             // add an expiredToken = Date.now()
             // save the user
+            console.log("COUNTY", foundUser.county)
             const payload = {
                 id: foundUser.id,
                 email: foundUser.email,
-                name: foundUser.name
+                name: foundUser.name,
+                state: foundUser.state,
+                county: foundUser.county,
             }
 
             jwt.sign(payload, JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
