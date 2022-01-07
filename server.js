@@ -28,6 +28,7 @@ app.use('/users', require('./controllers/user'));
 app.use('/site', require('./controllers/site'));
 app.use('/actNow', require('./controllers/actNow'));
 app.use('/countyData', require('./controllers/countyData'))
+app.use('/review', require('./controllers/review'))
 
 
 app.listen(3000, () =>{
