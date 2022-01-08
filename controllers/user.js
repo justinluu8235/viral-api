@@ -197,47 +197,53 @@ router.post('/login', async (req, res) => {
 });
 
 //Update user profile
-router.put('/update', async (req, res) => {
-
-
-    User.findOne({ email: req.body.email })
+router.post('/update', async (req, res) => {
+    console.log("INSIDE UPDATE USER ROUTE")
+    console.log("EXiSTING EMAIL", req.body.user.email)
+    User.findOne({ email: req.body.user.email })
         .then( async user => {
+           
             // if email already exists, a user will come back
-            if (user) {
+            if (!user) {
                 // send a 400 response
                 return res.status(400).json({ message: 'Email already exists' });
             } else {
 
-                let hashPassword;
+                console.log("EXISTING USER FOUND", user)
+                // let hashPassword;
 
-                // Salt and hash the password - before saving the user
-                bcrypt.genSalt(10, (err, salt) => {
-                    if (err) throw Error;
+                // // Salt and hash the password - before saving the user
+                // bcrypt.genSalt(10, (err, salt) => {
+                //     if (err) throw Error;
 
-                    bcrypt.hash(req.body.password, salt, (err, hash) => {
-                        if (err) console.log('==> Error inside of hash', err);
-                        // Change the password in newUser to the hash
-                        password = hash;
-                        // newUser.save()
-                        //     .then(createdUser => res.json(createdUser))
-                        //     .catch(err => console.log(err));
-                    });
-                });
+                //     bcrypt.hash(req.body.password, salt, (err, hash) => {
+                //         if (err) console.log('==> Error inside of hash', err);
+                //         // Change the password in newUser to the hash
+                //         password = hash;
+                //         // newUser.save()
+                //         //     .then(createdUser => res.json(createdUser))
+                //         //     .catch(err => console.log(err));
+                //     });
+                // });
+
+
 
                 let update = await User.updateOne({
-                    _id: userId,
+                    _id: req.body.user.id,
                 }, {
                     $set: {
-                        userName: req.body.userName,
-                        name: req.body.name,
-                        email: req.body.email,
-                        password: hashPassword,
-                        state: req.body.state,
-                        county: req.body.county,
+                        name: req.body.newName,
+                        email: req.body.newEmail,
+                        // password: hashPassword,
+                        state: req.body.newState,
+                        county: req.body.newCounty,
                     }
                 })
-
             }
+
+
+
+
         })
         .catch(err => {
             console.log('Error finding user', err);

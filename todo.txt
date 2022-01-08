@@ -32,8 +32,9 @@ TODO:
 
 Frontend
 - Reviews - styling
-- (Sterling) County Data - update page to auto display the user's county.
-- (Cameron) Vacc Site Redirect after adding 
+- styling
+    - (Sterling) county and site 
+    - (Cameron) auth and home
 
 Backend
 - 
@@ -44,7 +45,7 @@ Both:
     - (Michael) add upvote  
     - (Justin&Cameron) Add Wait Times --- frontend first. Radio button or dropdown (POST: will need wait time and site sent to backend)
 - Profile: 
-    - update user
+    - (Justin & Sterling) update user
 
 
 
