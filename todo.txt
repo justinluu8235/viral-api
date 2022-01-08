@@ -28,21 +28,23 @@ Oakland: 94605, 94607
 
 
 TODO: 
-Frontend
- - Profile: wrapping up cloudinary 
- - Signup: Fixing redirect
 
+
+Frontend
+- Reviews - styling
+- (Sterling) County Data - update page to auto display the user's county.
+- (Cameron) Vacc Site Redirect after adding 
 
 Backend
 - 
 
 
-
 Both: 
 - Site: 
-    - Make comments component  --- frontend first 
-    - Add Wait Times --- frontend first  (POST: will need wait time and site sent to backend)
-
+    - (Michael) add upvote  
+    - (Justin&Cameron) Add Wait Times --- frontend first. Radio button or dropdown (POST: will need wait time and site sent to backend)
+- Profile: 
+    - update user
 
 
 

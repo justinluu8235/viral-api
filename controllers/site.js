@@ -89,6 +89,7 @@ router.get("/:id" , async (request, response) => {
         const site = await Site.find({
             _id: id
         });
+        
         response.json({site});
     }
     catch(error){
@@ -99,7 +100,8 @@ router.get("/:id" , async (request, response) => {
 // - New site route 
 router.post("/new" , async (request, response) => {
     try{
-
+        let waitTimeInput = request.body.waitTimes;
+        console.log("HELOOO", waitTimeInput)
         let newSite = await Site.insertMany({
             name: request.body.name, 
             address: request.body.address, 
@@ -114,11 +116,33 @@ router.post("/new" , async (request, response) => {
             fridayHours: request.body.fridayHours, 
             saturdayHours: request.body.saturdayHours, 
             sundayHours: request.body.sundayHours, 
+            waitTimes: [{waitTime: waitTimeInput}]
         })
+        console.log("NEW SITE ADDED" , newSite)
+      
+        console.log("NEW WAIT TIME ADDED" , newSite[0].waitTimes)
+        response.json({newSite})
     }
     catch(error){
         response.status(500).send(error);
     }
 });
+
+
+
+//take in the site ID and an additional wait time and add to the array
+router.put("/updateWaitTime", async (request, response) => {
+    let siteId = request.body.siteId;
+    let waitTime = request.body.waitTime;
+
+    const site = await Site.find({
+        _id: siteId
+    });
+    site.waitTimes.push({
+        waitTime: waitTime
+    })
+    
+});
+
 
 module.exports = router;

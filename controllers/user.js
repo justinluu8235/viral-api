@@ -5,25 +5,25 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = process.env;
 const passport = require('passport');
-const {User} = require('../models')
-const {cloudinary} = require('../utils/cloudinary')
+const { User } = require('../models')
+const { cloudinary } = require('../utils/cloudinary')
 const axios = require('axios');
 
 
 
 
 // //get all users and return as array of objects
-router.get("/" , async (request, response) => {
-    try{
+router.get("/", async (request, response) => {
+    try {
         const userArray = await User.find({});
-        response.json({userArray});
+        response.json({ userArray });
     }
-    catch(error){
+    catch (error) {
         response.status(500).send(error);
     }
 });
 
-router.get('/test', ( req, res ) => {
+router.get('/test', (req, res) => {
     res.json({
         message: 'Testing users controller'
     });
@@ -33,7 +33,7 @@ router.get('/profile', passport.authenticate('jwt', { session: false }), (req, r
     console.log('====> inside /profile');
     console.log('====> user', req.user);
     const { id, userName, name, email, date, state, county, vaccinePhotoUrl } = req.user; // object with user object inside
-  
+
 
 
     res.json({ id, userName, name, email, date, state, county, vaccinePhotoUrl });
@@ -46,7 +46,7 @@ router.get("/photo/:email", async (req, res) => {
     let user = await User.findOne({
         email: userEmail
     })
-    if(user != null && user.vaccinePhotoUrl != ''){
+    if (user != null && user.vaccinePhotoUrl != '') {
         let publicId = user.vaccinePhotoUrl;
         console.log("SDA", publicId);
         // console.log("PUBLIC ID" , publicId);
@@ -55,28 +55,28 @@ router.get("/photo/:email", async (req, res) => {
         // .sort_by('public_id', 'desc')
         // .max_results(30)
         // .execute();
-    
-         const {resources} = await cloudinary.search.expression(`public_id:${publicId}`)
-        .sort_by('public_id', 'desc')
-        .max_results(30)
-        .execute();
+
+        const { resources } = await cloudinary.search.expression(`public_id:${publicId}`)
+            .sort_by('public_id', 'desc')
+            .max_results(30)
+            .execute();
         // console.log(resources);
         //mapping the array to only take the publicID
         const publicIds = resources.map(file => file.public_id);
         res.send(publicIds);
     }
-    
-    
+
+
 })
 
 router.post('/photo', async (req, res) => {
-    
-    try{
+
+    try {
         //get the data URI from frontend 
         const fileStr = req.body.data;
         console.log(fileStr)
         //Upload to cloudinary
-        const uploadedResponse = await cloudinary.uploader.upload(fileStr,{
+        const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
             upload_preset: "viralapi"
         })
         let uploadedPublicID = uploadedResponse.public_id;
@@ -84,20 +84,19 @@ router.post('/photo', async (req, res) => {
         //get the user, and update the vaccine photo url to the public ID from cloudinary
         const userId = req.body.userId;
         let user = await User.updateOne({
-            _id: userId, 
-        },{
-            $set: {vaccinePhotoUrl: uploadedPublicID}
-        }
-        )
+            _id: userId,
+        }, {
+            $set: { vaccinePhotoUrl: uploadedPublicID }
+        })
         // console.log(user);
         // console.log(uploadedResponse);
         // res.redirect("localhost:3001/profile")
     }
-    catch(error){
+    catch (error) {
         console.log(error);
     }
 
- 
+
 });
 
 
@@ -109,45 +108,45 @@ router.post('/signup', async (req, res) => {
     console.log(req.body);
 
     User.findOne({ email: req.body.email })
-    .then(user => {
-        // if email already exists, a user will come back
-        if (user) {
-            // send a 400 response
-            return res.status(400).json({ message: 'Email already exists' });
-        } else {
-            // Create a new user
-            const newUser = new User({
-                userName: req.body.userName, 
-                name: req.body.name,
-                email: req.body.email,
-                password: req.body.password,
-                state: req.body.state, 
-                county: req.body.county, 
-                vaccinePhotoUrl: ''
-            });
-
-            // Salt and hash the password - before saving the user
-            bcrypt.genSalt(10, (err, salt) => {
-                if (err) throw Error;
-
-                bcrypt.hash(newUser.password, salt, (err, hash) => {
-                    if (err) console.log('==> Error inside of hash', err);
-                    // Change the password in newUser to the hash
-                    newUser.password = hash;
-                    newUser.save()
-                    .then(createdUser => res.json(createdUser))
-                    .catch(err => console.log(err));
+        .then(user => {
+            // if email already exists, a user will come back
+            if (user) {
+                // send a 400 response
+                return res.status(400).json({ message: 'Email already exists' });
+            } else {
+                // Create a new user
+                const newUser = new User({
+                    userName: req.body.userName,
+                    name: req.body.name,
+                    email: req.body.email,
+                    password: req.body.password,
+                    state: req.body.state,
+                    county: req.body.county,
+                    vaccinePhotoUrl: ''
                 });
-            });
 
-           
-        }
-    })
-    .catch(err => {
-        console.log('Error finding user', err);
-        res.json({ message: 'An error occured. Please try again.'})
-       
-    })
+                // Salt and hash the password - before saving the user
+                bcrypt.genSalt(10, (err, salt) => {
+                    if (err) throw Error;
+
+                    bcrypt.hash(newUser.password, salt, (err, hash) => {
+                        if (err) console.log('==> Error inside of hash', err);
+                        // Change the password in newUser to the hash
+                        newUser.password = hash;
+                        newUser.save()
+                            .then(createdUser => res.json(createdUser))
+                            .catch(err => console.log(err));
+                    });
+                });
+
+
+            }
+        })
+        .catch(err => {
+            console.log('Error finding user', err);
+            res.json({ message: 'An error occured. Please try again.' })
+
+        })
 });
 
 router.post('/login', async (req, res) => {
@@ -156,7 +155,7 @@ router.post('/login', async (req, res) => {
     console.log(req.body);
     console.log("Email", req.body.email)
     const foundUser = await User.findOne({ email: req.body.email });
-    console.log("User Found: " , foundUser);
+    console.log("User Found: ", foundUser);
     if (foundUser) {
         // user is in the DB
         let isMatch = await bcrypt.compare(req.body.password, foundUser.password);
@@ -169,15 +168,18 @@ router.post('/login', async (req, res) => {
             // Create a token payload
             // add an expiredToken = Date.now()
             // save the user
+            console.log("COUNTY", foundUser.county)
             const payload = {
                 id: foundUser.id,
                 email: foundUser.email,
-                name: foundUser.name
+                name: foundUser.name,
+                state: foundUser.state,
+                county: foundUser.county,
             }
 
             jwt.sign(payload, JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
                 if (err) {
-                    res.status(400).json({ message: 'Session has endedd, please log in again'});
+                    res.status(400).json({ message: 'Session has endedd, please log in again' });
                 }
                 const legit = jwt.verify(token, JWT_SECRET, { expiresIn: 60 });
                 console.log('===> legit');
@@ -185,7 +187,7 @@ router.post('/login', async (req, res) => {
                 res.json({ success: true, token: `Bearer ${token}`, userData: legit });
                 res.redirect('http://localhost:3001/home')
             });
-            
+
 
         } else {
             return res.status(400).json({ message: 'Email or Password is incorrect' });
@@ -195,7 +197,56 @@ router.post('/login', async (req, res) => {
     }
 });
 
+//Update user profile
+router.put('/update', async (req, res) => {
 
 
+    User.findOne({ email: req.body.email })
+        .then( async user => {
+            // if email already exists, a user will come back
+            if (user) {
+                // send a 400 response
+                return res.status(400).json({ message: 'Email already exists' });
+            } else {
+
+                let hashPassword;
+
+                // Salt and hash the password - before saving the user
+                bcrypt.genSalt(10, (err, salt) => {
+                    if (err) throw Error;
+
+                    bcrypt.hash(req.body.password, salt, (err, hash) => {
+                        if (err) console.log('==> Error inside of hash', err);
+                        // Change the password in newUser to the hash
+                        password = hash;
+                        // newUser.save()
+                        //     .then(createdUser => res.json(createdUser))
+                        //     .catch(err => console.log(err));
+                    });
+                });
+
+                let update = await User.updateOne({
+                    _id: userId,
+                }, {
+                    $set: {
+                        userName: req.body.userName,
+                        name: req.body.name,
+                        email: req.body.email,
+                        password: hashPassword,
+                        state: req.body.state,
+                        county: req.body.county,
+                    }
+                })
+
+            }
+        })
+        .catch(err => {
+            console.log('Error finding user', err);
+            res.json({ message: 'An error occured. Please try again.' })
+
+        })
+
+
+});
 
 module.exports = router;
