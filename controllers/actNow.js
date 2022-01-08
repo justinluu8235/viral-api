@@ -91,9 +91,7 @@ router.get('/', async (req, response) => {
             temp.vaccinationsCompleted = stateData.actuals.vaccinationsCompleted;
             topTenNewCasesArr.push(temp);
         }
-
-
-        response.json({ topTenCasesArr, topTenDeathsArr, topTenNewCasesArr })
+            response.json({ topTenCasesArr, topTenDeathsArr, topTenNewCasesArr })
     }
     catch (error) {
         console.log(error);

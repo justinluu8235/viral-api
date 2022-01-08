@@ -2,11 +2,6 @@ const express = require('express');
 const router = express.Router();
 const {CountyData} = require('../models')
 
-
-
-
-
-
 // - return all the counties
 router.get("/counties" , async (request, response) => {
     try{
