@@ -43,4 +43,33 @@ router.post("/new/", async (request, response) => {
 
 });
 
+router.post('/comment', async (req, res) => {
+    console.log('connecting comment');
+    console.log(req.body.id);
+    try{
+        let comment = await Review.find({
+            _id: req.body.id
+        })
+        console.log(comment);
+        res.json({comment});
+    }
+    catch(err) {
+        res.status(500).send(err);
+    }
+})
+
+router.post('/vote', async (req, res) => {
+    try {
+        let update = await Review.updateOne({
+            _id: req.body.id
+        }, {
+            upVotes: req.body.upVotes
+        })
+        console.log(req.body.upVotes);
+        res.json(req.body.upVotes);
+    }
+    catch(err) {
+        res.status(500).send(err);
+    }
+})
 module.exports = router;
