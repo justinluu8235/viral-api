@@ -205,7 +205,7 @@ router.post('/update', async (req, res) => {
         .then( async user => {
            
             // if email already exists, a user will come back
-            if (user) {
+            if (!user) {
                 // send a 400 response
                 return res.status(400).json({ message: 'Email already exists' });
             } else {
