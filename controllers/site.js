@@ -108,7 +108,8 @@ router.get("/:id" , async (request, response) => {
 // - New site route 
 router.post("/new" , async (request, response) => {
     try{
-
+        let waitTimeInput = request.body.waitTimes;
+        console.log("HELOOO", waitTimeInput)
         let newSite = await Site.insertMany({
             name: request.body.name, 
             address: request.body.address, 
@@ -123,8 +124,11 @@ router.post("/new" , async (request, response) => {
             fridayHours: request.body.fridayHours, 
             saturdayHours: request.body.saturdayHours, 
             sundayHours: request.body.sundayHours, 
+            waitTimes: [{waitTime: waitTimeInput}]
         })
         console.log("NEW SITE ADDED" , newSite)
+      
+        console.log("NEW WAIT TIME ADDED" , newSite[0].waitTimes)
         response.json({newSite})
     }
     catch(error){

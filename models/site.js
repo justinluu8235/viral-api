@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const waitTimeSchema = new mongoose.Schema({
-    waitTime:Number,
+    waitTime:String,
 })
 
 //define schema
