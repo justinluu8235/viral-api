@@ -9,7 +9,7 @@ router.get("/:siteId", async (request, response) => {
         let allReviewArr = await Review.find({
             site: request.params.siteId
         })
-        console.log("ALL REVIEW", allReviewArr);
+        // console.log("ALL REVIEW", allReviewArr);
 
         response.json({allReviewArr});
 
