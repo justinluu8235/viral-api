@@ -64,6 +64,7 @@ router.post('/vote', async (req, res) => {
             _id: req.body.id
         }, {
             upVotes: req.body.upVotes,
+            upVoteArr: req.body.upVoteArr,
             userArr: req.body.userArr
         })
         console.log(req.body.userArr);
@@ -80,6 +81,7 @@ router.post('/downvote', async(req, res) => {
             _id: req.body.id
         }, {
             downVotes: req.body.upVotes,
+            downVoteArr: req.body.downVoteArr,
             userArr: req.body.userArr
         })
         console.log(req.body.userArr);
