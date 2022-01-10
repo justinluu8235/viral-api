@@ -15,6 +15,7 @@ const reviewSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Site'
     },
+    userArr: Array,
 })
 
 //name the model
