@@ -30,25 +30,18 @@ Oakland: 94605, 94607
 TODO: 
 
 
-Frontend
-- Reviews - styling
-- styling
-    - (Sterling) county and site 
-    - (Cameron) auth and home
-
-Backend
-- 
-
-
 Both: 
 - Site: 
-    - (Michael) add upvote  
-    - (Justin&Cameron) Add Wait Times --- frontend first. Radio button or dropdown (POST: will need wait time and site sent to backend)
-- Profile: 
-    - (Justin & Sterling) update user
-
-
-
+    - (Michael) add downvote, update upvote to be able to un-upvote
+    - DONE (Justin) Wait Time Display 
+    - DONE (Justin) Add alert for submitting a wait time
+- Home Page: 
+    -  DONE (Justin) top ten data is not correct 
+    -  DONE (Justin) converting state acronym to full name +
+- User Timeout: 
+    - DONE (Sterling) tells you it times out three times and goes to blank page
+- Update Profile:
+    - DONE (Cameron) logs out user after updating profile
 
 
 {

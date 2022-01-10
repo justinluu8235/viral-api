@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
-app.use(express.json());
+
 const cors = require('cors');
-app.use(express.urlencoded({ extended: false }));
+
 const {User} = require('./models')
 require('dotenv').config();
 const passport = require('passport');
@@ -17,8 +17,8 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+app.use(express.urlencoded({parameterLimit: 100000, limit: '10mb', extended: false}));
+app.use(express.json({parameterLimit: 100000, limit: '10mb', extended: false}));
 app.use(cors());
 app.use(passport.initialize());
 
