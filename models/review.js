@@ -6,6 +6,7 @@ const reviewSchema = new mongoose.Schema({
     review: String, 
     createdDate: String, 
     upVotes: Number,
+    downVotes: Number,
     userName: String,
     user: {
         type: mongoose.Schema.Types.ObjectId,

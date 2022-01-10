@@ -73,4 +73,17 @@ router.post('/vote', async (req, res) => {
         res.status(500).send(err);
     }
 })
+
+router.post('/downvote', async(req, res) => {
+    try {
+        console.log('backend');
+        let update = await Review.find({
+            
+        })
+        res.json(req.body);
+    }
+    catch(err) {
+        res.status(500).send(err);
+    }
+})
 module.exports = router;
