@@ -76,11 +76,14 @@ router.post('/vote', async (req, res) => {
 
 router.post('/downvote', async(req, res) => {
     try {
-        console.log('backend');
-        let update = await Review.find({
-            
+        let update = await Review.updateOne({
+            _id: req.body.id
+        }, {
+            downVotes: req.body.upVotes,
+            userArr: req.body.userArr
         })
-        res.json(req.body);
+        console.log(req.body.userArr);
+        res.json(req.body.downVotes);
     }
     catch(err) {
         res.status(500).send(err);
