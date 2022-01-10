@@ -81,7 +81,7 @@ router.post('/downvote', async(req, res) => {
         let update = await Review.updateOne({
             _id: req.body.id
         }, {
-            downVotes: req.body.upVotes,
+            downVotes: req.body.downVotes,
             downVoteArr: req.body.downVoteArr,
             userArr: req.body.userArr
         })
