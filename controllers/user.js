@@ -8,9 +8,11 @@ const passport = require('passport');
 const { User } = require('../models')
 const { cloudinary } = require('../utils/cloudinary')
 const axios = require('axios');
+const app = express();
 
 
-
+app.use(express.urlencoded({parameterLimit: 100000, limit: '10mb', extended: false}));
+app.use(express.json({parameterLimit: 100000, limit: '10mb', extended: false}));
 
 // //get all users and return as array of objects
 router.get("/", async (request, response) => {
