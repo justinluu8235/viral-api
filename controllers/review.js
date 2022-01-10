@@ -28,6 +28,7 @@ router.post("/new/", async (request, response) => {
             review: request.body.review,
             createdDate: request.body.createdDate,
             upVotes: request.body.upVotes,
+            downVotes: request.body.downVotes,
             userName: request.body.nameOfUser,
             user: request.body.userId,
             site: request.body.siteId,
