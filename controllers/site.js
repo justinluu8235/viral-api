@@ -90,7 +90,7 @@ router.get("/:id", async (request, response) => {
         const site = await Site.find({
             _id: id
         });
-        console.log(site[0].waitTimes);
+        console.log("WAIT TIMES", site[0].waitTimes);
         let counterObj = {};
         let waitTimesArr = site[0].waitTimes
         for(let i=0; i<waitTimesArr.length; i++ ){
@@ -115,7 +115,8 @@ router.get("/:id", async (request, response) => {
         }
 
         const sorted = highestCategoryArr.sort();
-        let popularWaitTime = highestCategoryArr[0];
+   
+        let popularWaitTime = highestCategoryArr[highestCategoryArr.length-1];
         console.log("Popular Wait Time", popularWaitTime)
 
         response.json({ site, popularWaitTime});
@@ -174,6 +175,7 @@ router.put("/updateWaitTime", async (request, response) => {
         });
 
         await site[0].save();
+        response.json({site})
     }
     catch (err) {
         console.log(err)
