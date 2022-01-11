@@ -11,6 +11,7 @@ const siteSchema = new mongoose.Schema({
     city: String, 
     state: String, 
     zipCode: Number, 
+    phoneNumber: String,
     mondayHours: String, 
     tuesdayHours: String, 
     wednesdayHours: String, 

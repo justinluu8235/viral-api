@@ -28,25 +28,29 @@ Oakland: 94605, 94607
 
 
 TODO: 
-- (Cameron) home page: add text after the numbers on top ten data 
-- (Sterling) county page: take out row for county name, and add above table as title
-- (Cameron) add site page: change redirect after adding site  to go to that individual site page
-- DONE (Justin) individual site page: change multiple address fields to display together
-- (Michael) inidivudal site page: refresh page after adding a wait time
-- DONE (Justin) comment: Revise date to only show date 
-- (Michael) add an alert saying you must be logged in if you try to vote when not logged in
 
 -STYLING
- - (Justin) Site Index
- - (Justin) Individual Site 
- - (Sterling) New Site
- - (Sterling) County data
- - (Cameron) Profile
+
+ - (Michael) Individual Site - vote icons and color
+ - (Cameron) Profile 
  - (Cameron) Home Page
- - (Michael) Nav bar 
+
+- VALIDATIONS 
+- DONE (Justin) search sites: zipcode - 5 digit number
+- (Sterling) new site: 
+    - add dropdown to state, 
+    - zip-code:5 digit number
+- DONE (Justin) edit profile/sign up - verify email on backend 
+
 
 Stretch Goals:
 add sit phone number and hours?
+
+
+
+
+
+
 
 
 {

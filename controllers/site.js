@@ -118,7 +118,7 @@ router.get("/zip/:zip", async (request, response) => {
         }
         let zipArr = zipObj[zip];
         let closeByArr = zipObj['closeBy']
-       
+        console.log(zipArr);
         response.json({ zipArr, closeByArr });
     }
     catch (error) {
@@ -166,7 +166,7 @@ router.get("/:id", async (request, response) => {
 
         let popularWaitTime = highestCategoryArr[highestCategoryArr.length - 1];
         console.log("Popular Wait Time", popularWaitTime)
-
+        console.log("SITE", site);
         response.json({ site, popularWaitTime });
     }
     catch (error) {
@@ -193,6 +193,7 @@ router.post("/new", async (request, response) => {
             fridayHours: request.body.fridayHours,
             saturdayHours: request.body.saturdayHours,
             sundayHours: request.body.sundayHours,
+            phoneNumber: request.body.phoneNumber,
             waitTimes: [{ waitTime: waitTimeInput }]
         })
         console.log("NEW SITE ADDED", newSite)
