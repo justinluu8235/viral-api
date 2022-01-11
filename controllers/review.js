@@ -32,6 +32,8 @@ router.post("/new/", async (request, response) => {
             userName: request.body.nameOfUser,
             user: request.body.userId,
             site: request.body.siteId,
+            upVoteColor: request.body.upVoteColor,
+            downVoteColor: request.body.downVoteColor,
         })
         console.log("NEW REVIEW", newReview);
 
