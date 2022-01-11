@@ -28,20 +28,25 @@ Oakland: 94605, 94607
 
 
 TODO: 
+- (Cameron) home page: add text after the numbers on top ten data 
+- (Sterling) county page: take out row for county name, and add above table as title
+- (Cameron) add site page: change redirect after adding site  to go to that individual site page
+- DONE (Justin) individual site page: change multiple address fields to display together
+- (Michael) inidivudal site page: refresh page after adding a wait time
+- DONE (Justin) comment: Revise date to only show date 
+- (Michael) add an alert saying you must be logged in if you try to vote when not logged in
 
+-STYLING
+ - (Justin) Site Index
+ - (Justin) Individual Site 
+ - (Sterling) New Site
+ - (Sterling) County data
+ - (Cameron) Profile
+ - (Cameron) Home Page
+ - (Michael) Nav bar 
 
-Both: 
-- Site: 
-    - (Michael) add downvote, update upvote to be able to un-upvote
-    - DONE (Justin) Wait Time Display 
-    - DONE (Justin) Add alert for submitting a wait time
-- Home Page: 
-    -  DONE (Justin) top ten data is not correct 
-    -  DONE (Justin) converting state acronym to full name +
-- User Timeout: 
-    - DONE (Sterling) tells you it times out three times and goes to blank page
-- Update Profile:
-    - DONE (Cameron) logs out user after updating profile
+Stretch Goals:
+add sit phone number and hours?
 
 
 {

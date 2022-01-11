@@ -18,6 +18,7 @@ const siteSchema = new mongoose.Schema({
     fridayHours: String, 
     saturdayHours: String, 
     sundayHours: String,
+    popularWaitTime: String,
     waitTimes: [waitTimeSchema]
 })
 
