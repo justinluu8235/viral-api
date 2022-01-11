@@ -19,6 +19,8 @@ const reviewSchema = new mongoose.Schema({
         ref: 'Site'
     },
     userArr: Array,
+    downVoteColor: String, 
+    upVoteColor: String, 
 })
 
 //name the model
