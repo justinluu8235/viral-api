@@ -8,6 +8,8 @@ require('dotenv').config();
 const passport = require('passport');
 require('./config/passport')(passport);
 
+
+const PORT = process.env.PORT || 8000;
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.header(
@@ -31,6 +33,6 @@ app.use('/countyData', require('./controllers/countyData'))
 app.use('/review', require('./controllers/review'))
 
 
-app.listen(3000, () =>{
+app.listen(PORT, () =>{
     console.log("Server is running at port 3000");
 })
