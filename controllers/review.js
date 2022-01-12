@@ -69,7 +69,7 @@ router.post('/vote', async (req, res) => {
             upVotes: req.body.upVotes,
             upVoteArr: req.body.upVoteArr,
             userArr: req.body.userArr,
-            upVoteColor: req.body.upVoteColor
+            // upVoteColor: req.body.upVoteColor
         })
         console.log(req.body.userArr);
         res.json(req.body.upVotes);
@@ -87,7 +87,7 @@ router.post('/downvote', async(req, res) => {
             downVotes: req.body.downVotes,
             downVoteArr: req.body.downVoteArr,
             userArr: req.body.userArr,
-            downVoteColor: req.body.downVoteColor
+            // downVoteColor: req.body.downVoteColor
         })
         let review = await Review.find({
             _id: req.body.id
