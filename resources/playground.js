@@ -1,5 +1,5 @@
 
-const {User, CountyData} = require('./models');
+const {User, CountyData} = require('../models');
 const axios = require('axios');
 
 

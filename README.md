@@ -157,3 +157,6 @@ Use of postman for REST route testing:
 ![ERD](./img/postman-testing.png)
 
 
+## Major Hurdles
+* One blocker we ran into was keeping track of which users have already voted on which reviews to avoid having a single user vote muliple times
+* Another blocker was being able understand the differences between data URIs, files, and image URLs to be able to upload photos to cloudinary for storage. 
