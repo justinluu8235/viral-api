@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { Review } = require('../models')
 
+
+// Get all the reviews for a specific site
 router.get("/:siteId", async (request, response) => {
     console.log('review backend connected')
    
@@ -20,6 +22,9 @@ router.get("/:siteId", async (request, response) => {
 
 });
 
+
+
+//Create a new review for a site
 router.post("/new/", async (request, response) => {
     console.log('review backend connected')
    
@@ -46,6 +51,7 @@ router.post("/new/", async (request, response) => {
 
 });
 
+//Get a specific review 
 router.post('/comment', async (req, res) => {
     console.log('connecting comment');
     console.log(req.body.id);
@@ -61,6 +67,7 @@ router.post('/comment', async (req, res) => {
     }
 })
 
+//Add an upvote to the review, as well as keep track of the user that upvoted
 router.post('/vote', async (req, res) => {
     try {
         let update = await Review.updateOne({
@@ -79,6 +86,9 @@ router.post('/vote', async (req, res) => {
     }
 })
 
+
+
+//Add an downvote to the review, as well as keep track of the user that downvoted
 router.post('/downvote', async(req, res) => {
     try {
         let update = await Review.updateOne({

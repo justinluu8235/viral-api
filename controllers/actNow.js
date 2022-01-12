@@ -101,7 +101,7 @@ router.get('/', async (req, response) => {
 });
 
 
-
+//Fetch COVID Data from the ActNow API for a specific county
 router.post('/county', async (req, res) => {
     try {
         console.log(req.body.county)

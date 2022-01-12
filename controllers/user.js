@@ -14,23 +14,7 @@ const app = express();
 app.use(express.urlencoded({parameterLimit: 100000, limit: '10mb', extended: false}));
 app.use(express.json({parameterLimit: 100000, limit: '10mb', extended: false}));
 
-// //get all users and return as array of objects
-// router.get("/", async (request, response) => {
-//     try {
-//         const userArray = await User.find({});
-//         response.json({ userArray });
-//     }
-//     catch (error) {
-//         response.status(500).send(error);
-//     }
-// });
-
-// router.get('/test', (req, res) => {
-//     res.json({
-//         message: 'Testing users controller'
-//     });
-// });
-
+//Get user information based on jwt token
 router.get('/profile', passport.authenticate('jwt', { session: false }), (req, res) => {
     console.log('====> inside /profile');
     console.log('====> user', req.user);
@@ -41,28 +25,26 @@ router.get('/profile', passport.authenticate('jwt', { session: false }), (req, r
     res.json({ id, userName, name, email, date, state, county, vaccinePhotoUrl });
 });
 
-
+//Gets the cloudinary publicID for the user vaccine photo
 router.get("/photo/:email", async (req, res) => {
+
+     //Get the user via the email
     let userEmail = req.params.email;
-    // console.log("USER Email", userEmail);
     let user = await User.findOne({
         email: userEmail
     })
+
+    // If user is found and has a photo public ID
+    // Pass to front end 
     if (user != null && user.vaccinePhotoUrl != '') {
         let publicId = user.vaccinePhotoUrl;
         console.log("SDA", publicId);
-        // console.log("PUBLIC ID" , publicId);
-        //returns an array of files from that folder
-        // const {resources} = await cloudinary.search.expression('folder:viralapi')
-        // .sort_by('public_id', 'desc')
-        // .max_results(30)
-        // .execute();
 
         const { resources } = await cloudinary.search.expression(`public_id:${publicId}`)
             .sort_by('public_id', 'desc')
             .max_results(30)
             .execute();
-        // console.log(resources);
+ 
         //mapping the array to only take the publicID
         const publicIds = resources.map(file => file.public_id);
         res.send(publicIds);
@@ -71,6 +53,10 @@ router.get("/photo/:email", async (req, res) => {
 
 })
 
+
+
+//Receive a data URI of the uploaded Vaccine Photo, 
+//upload to cloudinary, and store public ID returned to user 
 router.post('/photo', async (req, res) => {
 
     try {
@@ -90,9 +76,7 @@ router.post('/photo', async (req, res) => {
         }, {
             $set: { vaccinePhotoUrl: uploadedPublicID }
         })
-        // console.log(user);
-        // console.log(uploadedResponse);
-        // res.redirect("localhost:3001/profile")
+
     }
     catch (error) {
         console.log(error);
@@ -103,7 +87,7 @@ router.post('/photo', async (req, res) => {
 
 
 
-
+//Receives sign up info and creates user
 router.post('/signup', async (req, res) => {
     // POST - adding the new user to the database
     console.log('===> Inside of /signup');
@@ -151,6 +135,8 @@ router.post('/signup', async (req, res) => {
         })
 });
 
+
+// Log in to an existing account
 router.post('/login', async (req, res) => {
     // POST - finding a user and returning the user
     console.log('===> Inside of /login');
@@ -198,6 +184,8 @@ router.post('/login', async (req, res) => {
     }
 });
 
+
+
 //Update user profile
 router.post('/update', async (req, res) => {
     console.log("INSIDE UPDATE USER ROUTE")
@@ -209,25 +197,10 @@ router.post('/update', async (req, res) => {
             if (!user) {
                 // send a 400 response
                 return res.status(400).json({ message: 'Email already exists' });
+                
             } else {
 
                 console.log("EXISTING USER FOUND", user)
-                // let hashPassword;
-
-                // // Salt and hash the password - before saving the user
-                // bcrypt.genSalt(10, (err, salt) => {
-                //     if (err) throw Error;
-
-                //     bcrypt.hash(req.body.password, salt, (err, hash) => {
-                //         if (err) console.log('==> Error inside of hash', err);
-                //         // Change the password in newUser to the hash
-                //         password = hash;
-                //         // newUser.save()
-                //         //     .then(createdUser => res.json(createdUser))
-                //         //     .catch(err => console.log(err));
-                //     });
-                // });
-
 
 
                 let update = await User.updateOne({
@@ -236,14 +209,11 @@ router.post('/update', async (req, res) => {
                     $set: {
                         name: req.body.newName,
                         email: req.body.newEmail,
-                        // password: hashPassword,
                         state: req.body.newState,
                         county: req.body.newCounty,
                     }
                 })
             }
-
-
 
 
         })

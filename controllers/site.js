@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Site } = require('../models')
 
+//Get a list of all the vaccine sites 
 router.get("/", async (request, response) => {
     try {
         const siteArray = await Site.find({});
@@ -11,18 +12,21 @@ router.get("/", async (request, response) => {
         response.status(500).send(error);
     }
 });
+
+
 //Get Sites that are in the same zipcode, and cities that share that zip code
 //Return an object with zip code as key and array of sites in that zipcode as value
 router.get("/zip/:zip", async (request, response) => {
     try {
+
         let zip = request.params.zip;
         let zipResults = {};
         let cityLocationArr = [];
+
+        //Get all the sites in that zipcode from user
         const siteArray = await Site.find({
             zipCode: zip
         });
-
-
 
         // Creates an array of cities that are in the given zip code based on site input
         for (let i = 0; i < siteArray.length; i++) {
@@ -40,9 +44,9 @@ router.get("/zip/:zip", async (request, response) => {
                 city: cityLocationArr[i]
             })
             citySitesArr.push(citySites); //Array of array
-
         }
 
+        //Find the most popular wait time for each site and add it into the site's object
         for (let i = 0; i < citySitesArr.length; i++) {
             //the array for each city
             let citySiteArr = citySitesArr[i];
@@ -71,17 +75,15 @@ router.get("/zip/:zip", async (request, response) => {
                     highestCategoryArr.push(waitCategory);
                 }
             }
-
             const sorted = highestCategoryArr.sort();
 
             let popularWaitTime = highestCategoryArr[highestCategoryArr.length - 1];
             citySite.popularWaitTime = popularWaitTime;
-       
-      
             }
         }
 
         //Build object by zip code;
+        //{zipcode:[sites], zipcode:[sites]}
         for (let i = 0; i < citySitesArr.length; i++) {
             //the array for each city
             let citySiteArr = citySitesArr[i];
@@ -97,28 +99,29 @@ router.get("/zip/:zip", async (request, response) => {
                 }
             }
         }
+
+        //separate the user inputted zip sites from the others
         let zipObj = {}
         zipObj.closeBy = [];
         for (zipCode in zipResults) {
-       
             if (zipCode == zip) {
            
                 zipObj[zip] = zipResults[zip];
             }
             else {
                 let array = zipResults[zipCode];
-           
                 for (let i = 0; i < array.length; i++) {
                     let site = array[i];
                     zipObj.closeBy.push(site)
                 }
             }
-
-
         }
+
+
         let zipArr = zipObj[zip];
         let closeByArr = zipObj['closeBy']
-        console.log(zipArr);
+
+
         response.json({ zipArr, closeByArr });
     }
     catch (error) {
@@ -133,12 +136,14 @@ router.get("/zip/:zip", async (request, response) => {
 router.get("/:id", async (request, response) => {
     try {
 
+        //Get the site 
         let id = request.params.id;
-
         const site = await Site.find({
             _id: id
         });
         console.log("WAIT TIMES", site[0].waitTimes);
+
+        //Count all the different wait times 
         let counterObj = {};
         let waitTimesArr = site[0].waitTimes
         for (let i = 0; i < waitTimesArr.length; i++) {
@@ -152,9 +157,9 @@ router.get("/:id", async (request, response) => {
             }
         }
 
+        //Isolate the popular wait time options
         const values = Object.values(counterObj);
         const max = Math.max(...values);
-
         let highestCategoryArr = [];
         for (let waitCategory in counterObj) {
             if (counterObj[waitCategory] == max) {
@@ -162,12 +167,15 @@ router.get("/:id", async (request, response) => {
             }
         }
 
+        //Sort them to grab the longest wait time out of the popular ones
         const sorted = highestCategoryArr.sort();
-
         let popularWaitTime = highestCategoryArr[highestCategoryArr.length - 1];
+
+
         console.log("Popular Wait Time", popularWaitTime)
         console.log("SITE", site);
         response.json({ site, popularWaitTime });
+
     }
     catch (error) {
         response.status(500).send(error);
@@ -177,8 +185,9 @@ router.get("/:id", async (request, response) => {
 // - New site route 
 router.post("/new", async (request, response) => {
     try {
+        
+
         let waitTimeInput = request.body.waitTimes;
-        console.log("HELOOO", waitTimeInput)
         let newSite = await Site.insertMany({
             name: request.body.name,
             address: request.body.address,
@@ -196,8 +205,8 @@ router.post("/new", async (request, response) => {
             phoneNumber: request.body.phoneNumber,
             waitTimes: [{ waitTime: waitTimeInput }]
         })
-        console.log("NEW SITE ADDED", newSite)
 
+        console.log("NEW SITE ADDED", newSite)
         console.log("NEW WAIT TIME ADDED", newSite[0].waitTimes)
         response.json({ newSite })
     }
@@ -212,7 +221,7 @@ router.post("/new", async (request, response) => {
 router.put("/updateWaitTime", async (request, response) => {
     let siteId = request.body.siteId;
     let newWaitTime = request.body.waitTimes;
-    console.log(siteId);
+
     console.log("WAIT TIME", newWaitTime);
     try {
         const site = await Site.find({
@@ -222,8 +231,8 @@ router.put("/updateWaitTime", async (request, response) => {
         site[0].waitTimes.push({
             waitTime: newWaitTime
         });
-
         await site[0].save();
+        
         response.json({ site })
     }
     catch (err) {
