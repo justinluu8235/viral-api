@@ -16,11 +16,7 @@ app.use(express.json({parameterLimit: 100000, limit: '10mb', extended: false}));
 
 //Get user information based on jwt token
 router.get('/profile', passport.authenticate('jwt', { session: false }), (req, res) => {
-    console.log('====> inside /profile');
-    console.log('====> user', req.user);
     const { id, userName, name, email, date, state, county, vaccinePhotoUrl } = req.user; // object with user object inside
-
-
 
     res.json({ id, userName, name, email, date, state, county, vaccinePhotoUrl });
 });
@@ -38,7 +34,6 @@ router.get("/photo/:email", async (req, res) => {
     // Pass to front end 
     if (user != null && user.vaccinePhotoUrl != '') {
         let publicId = user.vaccinePhotoUrl;
-        console.log("SDA", publicId);
 
         const { resources } = await cloudinary.search.expression(`public_id:${publicId}`)
             .sort_by('public_id', 'desc')
@@ -49,8 +44,6 @@ router.get("/photo/:email", async (req, res) => {
         const publicIds = resources.map(file => file.public_id);
         res.send(publicIds);
     }
-
-
 })
 
 
@@ -62,7 +55,7 @@ router.post('/photo', async (req, res) => {
     try {
         //get the data URI from frontend 
         const fileStr = req.body.data;
-        console.log(fileStr)
+
         //Upload to cloudinary
         const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
             upload_preset: "viralapi"
@@ -90,8 +83,6 @@ router.post('/photo', async (req, res) => {
 //Receives sign up info and creates user
 router.post('/signup', async (req, res) => {
     // POST - adding the new user to the database
-    console.log('===> Inside of /signup');
-    console.log(req.body);
 
     User.findOne({ email: req.body.email })
         .then(user => {
@@ -139,15 +130,10 @@ router.post('/signup', async (req, res) => {
 // Log in to an existing account
 router.post('/login', async (req, res) => {
     // POST - finding a user and returning the user
-    console.log('===> Inside of /login');
-    console.log(req.body);
-    console.log("Email", req.body.email)
     const foundUser = await User.findOne({ email: req.body.email });
-    console.log("User Found: ", foundUser);
     if (foundUser) {
         // user is in the DB
         let isMatch = await bcrypt.compare(req.body.password, foundUser.password);
-        console.log('Match User', isMatch);
         if (isMatch) {
             // Updated timesLoggedin
             foundUser.timesLoggedIn += 1;
@@ -156,7 +142,6 @@ router.post('/login', async (req, res) => {
             // Create a token payload
             // add an expiredToken = Date.now()
             // save the user
-            console.log("COUNTY", foundUser.county)
             const payload = {
                 id: foundUser.id,
                 email: foundUser.email,
@@ -170,8 +155,6 @@ router.post('/login', async (req, res) => {
                     res.status(400).json({ message: 'Session has endedd, please log in again' });
                 }
                 const legit = jwt.verify(token, JWT_SECRET, { expiresIn: 60 });
-                console.log('===> legit');
-                console.log(legit);
                 res.json({ success: true, token: `Bearer ${token}`, userData: legit });
             });
 
@@ -188,8 +171,6 @@ router.post('/login', async (req, res) => {
 
 //Update user profile
 router.post('/update', async (req, res) => {
-    console.log("INSIDE UPDATE USER ROUTE")
-    console.log("EXiSTING EMAIL", req.body.user.email)
     User.findOne({ email: req.body.user.email })
         .then( async user => {
            
@@ -197,12 +178,7 @@ router.post('/update', async (req, res) => {
             if (!user) {
                 // send a 400 response
                 return res.status(400).json({ message: 'Email already exists' });
-                
             } else {
-
-                console.log("EXISTING USER FOUND", user)
-
-
                 let update = await User.updateOne({
                     _id: req.body.user.id,
                 }, {
@@ -214,7 +190,6 @@ router.post('/update', async (req, res) => {
                     }
                 })
             }
-
 
         })
         .catch(err => {

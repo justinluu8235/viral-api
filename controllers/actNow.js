@@ -104,15 +104,11 @@ router.get('/', async (req, response) => {
 //Fetch COVID Data from the ActNow API for a specific county
 router.post('/county', async (req, res) => {
     try {
-        console.log(req.body.county)
-        
         let county = req.body.county;
-        console.log(county);
         let countyData = await CountyData.findOne({
             countyName: county
         })
         let countyId = countyData.code;
-        
         let api = await axios.get(`https://api.covidactnow.org/v2/county/${countyId}.json?apiKey=${COVID_API_KEY}`)
         let countyInfo = {
             fips: api.data.fips,

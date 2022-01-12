@@ -54,10 +54,9 @@ router.get("/zip/:zip", async (request, response) => {
                 let citySite = citySiteArr[j];
             let counterObj = {};
             let waitTimesArr = citySite.waitTimes;
-          
+        
             for (let i = 0; i < waitTimesArr.length; i++) {
                 let waitTime = waitTimesArr[i].waitTime;
-
                 if (counterObj[waitTime] == undefined) {
                     counterObj[waitTime] = 1;
                 }
@@ -68,7 +67,6 @@ router.get("/zip/:zip", async (request, response) => {
            
             const values = Object.values(counterObj);
             const max = Math.max(...values);
-
             let highestCategoryArr = [];
             for (let waitCategory in counterObj) {
                 if (counterObj[waitCategory] == max) {
@@ -135,13 +133,11 @@ router.get("/zip/:zip", async (request, response) => {
 // - Individual site page - display all the info including comments 
 router.get("/:id", async (request, response) => {
     try {
-
         //Get the site 
         let id = request.params.id;
         const site = await Site.find({
             _id: id
         });
-        console.log("WAIT TIMES", site[0].waitTimes);
 
         //Count all the different wait times 
         let counterObj = {};
@@ -171,9 +167,6 @@ router.get("/:id", async (request, response) => {
         const sorted = highestCategoryArr.sort();
         let popularWaitTime = highestCategoryArr[highestCategoryArr.length - 1];
 
-
-        console.log("Popular Wait Time", popularWaitTime)
-        console.log("SITE", site);
         response.json({ site, popularWaitTime });
 
     }
@@ -185,7 +178,6 @@ router.get("/:id", async (request, response) => {
 // - New site route 
 router.post("/new", async (request, response) => {
     try {
-        
 
         let waitTimeInput = request.body.waitTimes;
         let newSite = await Site.insertMany({
@@ -195,19 +187,10 @@ router.post("/new", async (request, response) => {
             state: request.body.state,
             zipCode: request.body.zipCode,
             state: request.body.state,
-            mondayHours: request.body.mondayHours,
-            tuesdayHours: request.body.tuesdayHours,
-            wednesdayHours: request.body.wednesdayHours,
-            thursdayHours: request.body.thursdayHours,
-            fridayHours: request.body.fridayHours,
-            saturdayHours: request.body.saturdayHours,
-            sundayHours: request.body.sundayHours,
             phoneNumber: request.body.phoneNumber,
             waitTimes: [{ waitTime: waitTimeInput }]
         })
 
-        console.log("NEW SITE ADDED", newSite)
-        console.log("NEW WAIT TIME ADDED", newSite[0].waitTimes)
         response.json({ newSite })
     }
     catch (error) {
@@ -222,7 +205,6 @@ router.put("/updateWaitTime", async (request, response) => {
     let siteId = request.body.siteId;
     let newWaitTime = request.body.waitTimes;
 
-    console.log("WAIT TIME", newWaitTime);
     try {
         const site = await Site.find({
             _id: siteId
@@ -232,7 +214,6 @@ router.put("/updateWaitTime", async (request, response) => {
             waitTime: newWaitTime
         });
         await site[0].save();
-        
         response.json({ site })
     }
     catch (err) {

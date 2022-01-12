@@ -12,8 +12,6 @@ router.get("/counties" , async (request, response) => {
             let name = countyData.countyName;
             countyNameArr.push(name);
         }
-
-
         response.json({countyNameArr});
     }
     catch(error){
