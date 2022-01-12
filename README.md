@@ -7,6 +7,20 @@ Users will be able to ‘vouch’ for vaccination sites and leave reviews to let
 
 The Viral API provides database management for sites, users, as well as COVID data from the ActNow API.
 
+## Installation Instructions
+
+```
+- fork and clone
+- npm install on terminal
+- create .env file
+- Add the following to the .env file
+    - MONGO_URI: database connection string
+    - JWT_SECRET: for authentication
+    - COVID_API_KEY: for ActNow API connection
+    - CLOUDINARY_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET: for cloudinary image upload connection
+
+```
+
 
 ## Entity Relationship Diagram
 The following ERD details the associations between the user, sites, and their reviews/wait time.
@@ -111,18 +125,35 @@ The following table illustrates the routes that are used by the server to allow 
 
  Verb | URL | Description
  ----------- | ----------- | -----------
- GET | / | Home Page
- GET | /auth/login |  Log in screen
- GET | /auth/signup | Sign up screen for new account
- GET | /auth/logout |  Log out of current account
- POST | /auth/login |  Log in to an existing account
- POST | /auth/signup |  Sign up and log in
- GET | /recipes |  display all user's recipes
- GET | /recipes/new | Create a new recipe
- GET | /recipes/edit/:id | Edit an individual recipe
- GET | /recipes/:id | display an individual recipe
- POST | /recipes | Create a Recipe based on name, ingredients, and instructions provided
- POST | /recipes/:id | Create shopping list items based on a recipe's ingredients
- PUT | /recipes/:id |  Save edited data of a recipe, its ingredients, and instructions
- DELETE | /recipes/:id |  delete a recipe, and any associated menu item
- GET | /searchRecipes |  search for a recipe on spoonacular API
+ GET | /users/profile | Get user information based on jwt token
+ GET | /users/photo/:email | Gets the cloudinary publicID for the user vaccine photo
+ POST | /users/photo | Receive a data URI of the uploaded Vaccine Photo, upload to cloudinary, and store public ID returned to user 
+ POST | /users/signup |  Receives sign up info and creates user
+ POST | /users/login |  Log in to an existing account
+ POST | /users/update |  Update user information 
+ GET | /site |  Get a list of all the vaccine sites 
+ GET | /site/zip/:zip | Get a list of site and their wait time at a certain zip code, as well as any others in the same cities 
+ GET | /site/:id | Get an individual site and its most popular wait time
+ POST | /site/new | Create a new site 
+ PUT | /site/updateWaitTime | Add a wait time to the vaccine site's wait time array
+ GET | /review/:siteId | Get all the reviews for a specific site
+ POST | /review/new |  Create a new review for a site
+ POST | /review/comment |  Get a specific review 
+ POST  | /review/vote |  Add an upvote to the review, as well as keep track of the user that upvoted
+ POST | /review/downVote | Add an downvote to the review, as well as keep track of the user that downvoted
+ GET | /actNow | Fetch COVID Data from the ActNow API for the top ten states based on cases, newCases, and deaths
+ POST | /actNow/county | Fetch COVID Data from the ActNow API for a specific county
+ GET | /countyData/counties |  Get a list of county names to display
+
+ 
+ 
+
+
+## Postman Testing 
+
+Use of postman for REST route testing:
+
+
+![ERD](./img/postman-testing.png)
+
+

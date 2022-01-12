@@ -15,21 +15,21 @@ app.use(express.urlencoded({parameterLimit: 100000, limit: '10mb', extended: fal
 app.use(express.json({parameterLimit: 100000, limit: '10mb', extended: false}));
 
 // //get all users and return as array of objects
-router.get("/", async (request, response) => {
-    try {
-        const userArray = await User.find({});
-        response.json({ userArray });
-    }
-    catch (error) {
-        response.status(500).send(error);
-    }
-});
+// router.get("/", async (request, response) => {
+//     try {
+//         const userArray = await User.find({});
+//         response.json({ userArray });
+//     }
+//     catch (error) {
+//         response.status(500).send(error);
+//     }
+// });
 
-router.get('/test', (req, res) => {
-    res.json({
-        message: 'Testing users controller'
-    });
-});
+// router.get('/test', (req, res) => {
+//     res.json({
+//         message: 'Testing users controller'
+//     });
+// });
 
 router.get('/profile', passport.authenticate('jwt', { session: false }), (req, res) => {
     console.log('====> inside /profile');

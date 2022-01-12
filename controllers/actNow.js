@@ -98,39 +98,9 @@ router.get('/', async (req, response) => {
         console.log(error);
     }
 
-    //Data returned for the ten states
-    // [{
-    //     state: 'IL',
-    //     caseDensity: 182.4,
-    //     cases: 2243215,
-    //     deaths: 31212,
-    //     positiveTests: 2124389,
-    //     negativeTests: 33311263,
-    //     hospitalBeds: {
-    //       capacity: 27205,
-    //       currentUsageTotal: 19548,
-    //       currentUsageCovid: 5813
-    //     },
-    //     icuBeds: { capacity: 3119, currentUsageTotal: 2290, currentUsageCovid: 999 },
-    //     newCases: 89157,
-    //     newDeaths: 195,
-    //     vaccinesDistributed: 23263615,
-    //     vaccinationsInitiated: 9118884,
-    //     vaccinationsCompleted: 8114639
-    //   }]
-    // console.log(topTenCasesArr);
 });
 
-// axios.get(`https://api.census.gov/data/2010/dec/sf1?get=NAME&for=county:*`)
-//     .then((res) => {
-//         console.log(res.data);
-//     })
-//     .catch((err) => {
-//         console.log(err);
-//     })
-// - Fetch API data by county name. Display # of cases, Fully vaccinated %, # of deaths, new cases
 
-// axios.get(`https://api.covidactnow.org/v2/county/${fips}.json?apiKey=${COVID_API_KEY}`)
 
 router.post('/county', async (req, res) => {
     try {
@@ -165,25 +135,6 @@ router.post('/county', async (req, res) => {
     }
 })
 
-// axios.get(`https://api.covidactnow.org/v2/county/55037.json?apiKey=${COVID_API_KEY}`)
-//     .then((res) => {
-//         let countyInfo = {
-//             fips: res.data.fips,
-//             state: res.data.state,
-//             county: res.data.county,
-//             population: res.data.population,
-//             caseDensity: res.data.metrics.caseDensity,
-//             cases: res.data.actuals.cases,
-//             deaths: res.data.actuals.deaths,
-//             newCases: res.data.actuals.newCases,
-//             newDeaths: res.data.actuals.newDeaths,
-//             vaccinationsInitiated: res.data.actuals.vaccinationsInitiated,
-//             vaccinationsCompleted: res.data.actuals.vaccinationsCompleted,
-//         };
-//         console.log(countyInfo);
-//     })
-//     .catch((err) => {
-//         console.log(err);
-//     })
+
 
 module.exports = router;
