@@ -154,7 +154,7 @@ The following table illustrates the routes that are used by the server to allow 
 Use of postman for REST route testing:
 
 
-![ERD](./img/postman-testing.png)
+![ERD](./img/postman-testing.png) 
 
 
 ## Major Hurdles
